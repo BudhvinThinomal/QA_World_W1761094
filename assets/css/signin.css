@@ -1,0 +1,125 @@
+/* Sign up and login pages common styles */
+
+.container {
+    position:absolute;
+    top:0px;
+    right:0px;
+    bottom:0px;
+    left:0px;
+    display: flex;
+    flex-direction: row;
+    background-color: whitesmoke;
+}
+
+.container__left {
+    width: 20%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.container__left-p {
+    color: #08134A;
+    font-weight: bolder;
+    font-size: 42px;
+    text-align: center;
+}
+
+.btm {
+    font-size: 16px;
+    padding-top: 10px;
+    text-align: center;
+}
+
+.btm a{
+    text-decoration: none;
+    color: #08134A;
+}
+
+.container__right {
+    flex: 1;
+    background-color: #30C6D0;
+    background-image: linear-gradient(to right, #30C6D0, whitesmoke);
+    border-bottom-left-radius: 20px;
+    border-top-left-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.container__right-logo {
+    width: 25%;
+    height: 15%;
+    margin: 8% 0 8% 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.container__right-logo img {
+    width: 100%;
+}
+
+.container__right-sec {
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.heading {
+    height: 25%;
+    display: flex;
+    align-items: flex-end;
+}
+
+.input {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.input div {
+    width: 100%;
+}
+
+.input p {
+    font-weight: 600;
+    font-size: 18px;
+}
+
+.input input {
+    margin-top: 5px;
+    padding: 10px;
+    border-radius: 10px;
+    border: none;
+    width: 25em;
+    height: 1.5em;
+    outline: none;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+.selector:nth-last-child(1) {
+    font-size: 18px;
+    margin-left: 10px;
+}
+
+.btn button{
+    margin-top: 6%;
+    font-size: 26px;
+    width: 14em;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 0 5px 0;
+    background-color: #46cb8bb5;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 200ms;
+}

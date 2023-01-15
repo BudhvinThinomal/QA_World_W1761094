@@ -1,0 +1,72 @@
+/* Sign up and login pages common styles */
+
+.container {
+    position:absolute;
+    top:0px;
+    right:0px;
+    bottom:0px;
+    left:0px;
+    display: flex;
+    flex-direction: row;
+    background-color: whitesmoke;
+}
+
+.container__main {
+    flex: 1;
+    background-color: #30C6D0;
+    background-image: linear-gradient(to bottom right, #30C6D0, whitesmoke);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.container__main-logo {
+    width: 25%;
+    height: 15%;
+    margin: 10% 0 10% 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.container__main-logo img {
+    width: 100%;
+}
+
+.container__sec {
+    margin-bottom: 5%;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.container_p {
+    color: #08134A;
+    font-weight: bolder;
+    font-size: 52px;
+    text-align: center;
+}
+
+.container__sec_two {
+    width: 80%;
+    padding: 2%;
+    display: flex;
+    justify-content: right;
+}
+
+.btn button{
+    font-size: 26px;
+    width: 10em;
+    border: none;
+    color: #08134A;
+    border-radius: 10px;
+    padding: 5px 0 5px 0;
+    background-color: #46cb8bb5;
+    box-shadow: rgba(0, 0, 0, 0.60) 0px 3px 8px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 200ms;
+}

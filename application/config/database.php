@@ -73,26 +73,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $active_group = 'default';
 $query_builder = TRUE;
 
-// $db['default']['dsn'] = '';
-// $db['default']['hostname'] = 'phpmyadmin.ecs.westminster.ac.uk';
-// $db['default']['username'] = 'W1761094';
-// $db['default']['password'] = 'egFkAH4pVgUs';
-// $db['default']['database'] = 'W1761094_0';
-// $db['default']['dbdriver'] = 'mysqli';
-// $db['default']['dbprefix'] = '';
-// $db['default']['pconnect'] = FALSE;
-// $db['default']['db_debug'] = (ENVIRONMENT !== 'production');
-// $db['default']['cache_on'] = FALSE;
-// $db['default']['cachedir'] = '';
-// $db['default']['char_set'] = 'utf8';
-// $db['default']['dbcollat'] = 'utf8_general_ci';
-// $db['default']['swap_pre'] = '';
-// $db['default']['encrypt'] = FALSE;
-// $db['default']['compress'] = FALSE;
-// $db['default']['stricton'] = FALSE;
-// $db['default']['failover'] = array();
-// $db['default']['save_queries'] = TRUE;
-
 $db['default'] = array(
 	'dsn'	=> '',
 	'hostname' => 'localhost',
