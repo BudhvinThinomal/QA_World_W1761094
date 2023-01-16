@@ -18,7 +18,7 @@ CREATE TABLE `question_details` (
     `downVotes` INT(255) NOT NULL DEFAULT 0,
     `username` VARCHAR(40) NOT NULL,
     `views` INT(255) NOT NULL DEFAULT 0,
-    `tags` VARCHAR(65535) NOT NULL,
+    `tags` LONGTEXT NOT NULL,
     PRIMARY KEY (`questionID`),
     FOREIGN KEY (`username`) REFERENCES `user_details`(`username`)
 );

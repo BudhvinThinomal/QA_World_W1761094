@@ -24,6 +24,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |
 */
 $config['base_url'] = 'http://localhost/QA_World_W1761094';
+// $config['base_url'] = 'http://w1761094.users.ecs.westminster.ac.uk/QA_World_W1761094';
 
 /*
 |--------------------------------------------------------------------------
