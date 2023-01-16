@@ -39,21 +39,36 @@ class User_model extends CI_Model
 
     function authenticate_user($username, $password)
     {
-
         $this->db->where('username', $username);
         $result = $this->db->get('user_details');
 
         $responseArray = $result->row_array();
 
-        if (password_verify($password, $responseArray['password'])) {
-            return true;
-        } else {
+        if(empty($responseArray)) {
             return false;
+        } else {
+            if (password_verify($password, $responseArray['password'])) {
+                return true;
+            } else {
+                return false;
+            }
         }
     }
 
     function create_user($username, $fullName, $password)
     {
+        $this->db->where('username', $username);
+        $verification = $this->db->get('user_details');
+
+        $responseArray = $verification->row_array();
+
+        if(!empty($responseArray)) {
+            $response["message"] = "Username already exists!";
+            $response["isValid"] = false;
+
+            return $response;
+        }
+
         $enpassword = password_hash($password, PASSWORD_DEFAULT);
 
         $result = $this->db->insert('user_details', array(

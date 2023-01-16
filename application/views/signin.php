@@ -27,7 +27,7 @@
             <!-- Section 02 link to sign up page -->
             <div class="btm a">
                 <p >Already a member ?</p>
-                <a href="#">Log In</a>
+                <a href="<?php echo (base_url()); ?>index.php/Login">Log In</a>
             </div>
         </div>
 
@@ -41,7 +41,7 @@
             <div class="container__right-sec input">
                 <div>
                     <p>Full Name</p>
-                    <input type="text" placeholder="Enter your Full Name" />
+                    <input type="text"  id='fullName' placeholder="Enter your Full Name"/>
                 </div>
             </div>
 
@@ -49,7 +49,7 @@
             <div class="container__right-sec input">
                 <div>
                     <p>Username</p>
-                    <input type="text" placeholder="Enter your Username" />
+                    <input type="text" id='username'  placeholder="Enter your Username"/>
                 </div>
             </div>
 
@@ -57,7 +57,7 @@
             <div class="container__right-sec input">
                 <div>
                     <p>Password</p>
-                    <input type="password" placeholder="Enter your Password" />
+                    <input type="password" id='password' placeholder="Enter your Password"/>
                 </div>
             </div>
 
@@ -65,16 +65,45 @@
             <div class="container__right-sec input">
                 <div>
                     <p>Confirm Password</p>
-                    <input type="password" placeholder="Enter the same password as above" />
+                    <input type="password" placeholder="Enter the same password as above"/>
                 </div>
             </div>
 
             <!-- Section 06 Submit button section -->
             <div class="container__right-sec btn">
-                <button>Sign In</button>
+                <button id='signinBtn'>Sign In</button>
             </div>
         </div>
     </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.13.1/underscore-min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.4.0/backbone-min.js"></script>
+    
+    <script>
+        $(document).ready(function (event) {
+            $('#signinBtn').click(function (event) {
+                event.preventDefault(); 
+                $.ajax({
+                    url: "<?php echo (base_url()); ?>index.php/api/User/signin",
+                    method: "POST",
+                    datatype: 'json',
+                    data: {
+                        "username": $("#username").val(),
+                        "fullName": $("#fullName").val(),
+                        "password": $("#password").val()
+                    }
+                }).done(function (data) {
+                    console.log(data);
+                    if (data.isValid == true) {
+                        window.location.href = "<?php echo (base_url()); ?>index.php/Home"
+                    } else {
+                        alert(data.message)
+                    }
+                })
+            })
+        })
+    </script>
 </body>
 
 </html>

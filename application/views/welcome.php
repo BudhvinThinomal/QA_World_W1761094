@@ -34,7 +34,7 @@
             
             <!-- Sub Section 03 Start button section -->
             <div class="container__sec_two btn">
-                <button>Start Journey</button>
+                <a href="<?php echo (base_url()); ?>index.php/Home">Start Journey</a>
             </div>
         </div>
     </div>

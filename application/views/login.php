@@ -27,7 +27,7 @@
             <!-- Section 02 link to sign up page -->
             <div class="btm a">
                 <p >Not a member yet ?</p>
-                <a href="#">Sign In</a>
+                <a href="<?php echo (base_url()); ?>index.php/Signin">Sign In</a>
             </div>
         </div>
 
@@ -41,14 +41,14 @@
             <div class="container__right-sec input">
                 <div>
                     <p>Username</p>
-                    <input type="text" placeholder="Enter your Username" />
+                    <input type="text" id='username' placeholder="Enter your Username"/>
                 </div>
             </div>
             <!-- Section 03 input Container 02 -->
             <div class="container__right-sec input">
                 <div>
                     <p>Password</p>
-                    <input type="password" placeholder="Enter your Password" />
+                    <input type="password" id='password' placeholder="Enter your Password"/>
                 </div>
             </div>
 
@@ -66,10 +66,38 @@
 
             <!-- Section 05 Submit button section -->
             <div class="container__right-sec btn">
-                <button>Log In</button>
+                <button id='loginBtn'>Log In</button>
             </div>
         </div>
     </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.13.1/underscore-min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.4.0/backbone-min.js"></script>
+    
+    <script>
+        $(document).ready(function (event) {
+            $('#loginBtn').click(function (event) {
+                event.preventDefault(); 
+                $.ajax({
+                    url: "<?php echo (base_url()); ?>index.php/api/User/login",
+                    method: "POST",
+                    datatype: 'json',
+                    data: {
+                        "username": $("#username").val(),
+                        "password": $("#password").val()
+                    }
+                }).done(function (data) {
+                    console.log(data);
+                    if (data == true) {
+                        window.location.href = "<?php echo (base_url()); ?>index.php/Home"
+                    } else {
+                        alert("You have entered an invalid Username or Password!!")
+                    }
+                })
+            })
+        })
+    </script>
 </body>
 
 </html>
