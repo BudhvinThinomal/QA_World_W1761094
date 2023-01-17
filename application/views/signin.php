@@ -104,6 +104,54 @@
             })
         })
     </script>
+
+    <!-- <script>
+
+        var apiUrl = "<?php echo (base_url());?>index.php/api/user/login";
+
+        var User = Backbone.Model.extend({
+            // url: "http://localhost/AskFox_w1761288/index.php/api/user/login",
+            url: apiUrl,
+            defaults: {
+                username: null,
+                fullName: null,
+                password: null
+            }
+        });
+
+        var LoginView = Backbone.View.extend({
+            model: User,
+            events: {
+                'click #login-btn:': 'login'
+            },
+            login: function(e) {
+                e.preventDefault();
+
+                var user = new User({
+                    "username": $("#username").val(),
+                    "fullName": $("#fullName").val(),
+                    "password": $("#password").val()
+                });
+
+                
+                user.save({}, {
+                    type: 'POST',
+                    contentType: 'application/json',
+                    dataType: 'text',
+                    success: function(model, response) {
+                        console.log(response);
+                    },
+                    error: function(model, response) {
+                        console.log(response);
+                    }
+                });
+            }
+        });
+
+        var SigninView = new SigninView({
+            el: $('#signinContainer')
+        });
+    </script> -->
 </body>
 
 </html>
