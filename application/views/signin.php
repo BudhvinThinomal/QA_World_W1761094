@@ -110,7 +110,7 @@
         var apiUrl = "<?php echo (base_url());?>index.php/api/user/login";
 
         var User = Backbone.Model.extend({
-            // url: "http://localhost/AskFox_w1761288/index.php/api/user/login",
+            // url: "<?php echo(base_url());?>/index.php/api/user/login",
             url: apiUrl,
             defaults: {
                 username: null,
