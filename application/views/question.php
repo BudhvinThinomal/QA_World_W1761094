@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
     <link rel="icon" href="<?php echo (base_url()); ?>assets/images/LogoScratch.png" type="image/png">
-    <title>QA WORLD - Answer Q.</title>
+    <title>QA WORLD - Answer Question</title>
 
     <!-- File specific styles -->
     <link rel="stylesheet" type="text/css" href="<?php echo (base_url()); ?>assets/css/question.css">
