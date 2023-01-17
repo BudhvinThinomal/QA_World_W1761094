@@ -107,8 +107,6 @@
 
     <!-- <script>
 
-        var apiUrl = "<?php echo (base_url());?>index.php/api/user/login";
-
         var User = Backbone.Model.extend({
             // url: "<?php echo(base_url());?>/index.php/api/user/login",
             url: apiUrl,
