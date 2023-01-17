@@ -119,12 +119,12 @@
             }
         });
 
-        var LoginView = Backbone.View.extend({
+        var SigninView = Backbone.View.extend({
             model: User,
             events: {
-                'click #login-btn:': 'login'
+                'click #signin-btn:': 'signin'
             },
-            login: function(e) {
+            signin: function(e) {
                 e.preventDefault();
 
                 var user = new User({
