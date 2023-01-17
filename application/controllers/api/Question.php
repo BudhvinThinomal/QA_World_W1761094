@@ -62,4 +62,37 @@ class Question extends \Restserver\Libraries\REST_Controller {
 
         $this->set_response($response, \Restserver\Libraries\REST_Controller::HTTP_CREATED);
     }
+
+        
+    function filterQuestion_get() {
+        $response = $this->question_model->get_filter();
+
+        if ($response) {
+            $this->set_response($response, \Restserver\Libraries\REST_Controller::HTTP_OK);
+        } else {
+            $this->set_response($response, \Restserver\Libraries\REST_Controller::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    function updateQuetionVotes_post() {
+        $requestJson['questionID'] = $this->input->post('questionID');
+        $requestJson['username'] = $this->input->post('username'); // Current user username;
+        $requestJson['isLoggedIn'] = (boolean)$this->input->post('isLoggedIn');
+        $requestJson['voteType'] = $this->input->post('voteType');
+
+        if ($requestJson['questionID'] and $requestJson['username'] and $requestJson['voteType']) {
+            $response = $this->question_model->update_question_votes($requestJson);
+
+            if ($response['isUpdated']) {
+                $this->set_response($response, \Restserver\Libraries\REST_Controller::HTTP_CREATED);
+            } else {
+                $this->set_response($response, \Restserver\Libraries\REST_Controller::HTTP_INTERNAL_SERVER_ERROR);
+            }
+
+        } else {
+            $response['message'] = "Error processing input";
+            $response['isUpdated'] = false;
+            $this->set_response($response, \Restserver\Libraries\REST_Controller::HTTP_BAD_REQUEST);
+        }
+    }
 }

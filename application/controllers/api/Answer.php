@@ -45,6 +45,28 @@ class Answer extends \Restserver\Libraries\REST_Controller {
         $this->set_response($response, \Restserver\Libraries\REST_Controller::HTTP_CREATED);
     }
 
+    function updateAnswerVote_post() {
+        $requestJson['answerID'] = $this->input->post('answerID');
+        $requestJson['username'] = $this->input->post('username');
+        $requestJson['isLoggedIn'] = (boolean)$this->input->post('isLoggedIn');
+        $requestJson['voteType'] = $this->input->post('voteType');
+
+        if ($requestJson['answerID'] and $requestJson['username'] and $requestJson['voteType']) {
+            $response = $this->answer_model->update_answer_votes($requestJson);
+
+            if ($response['isUpdated']) {
+                $this->set_response($response, \Restserver\Libraries\REST_Controller::HTTP_CREATED);
+            } else {
+                $this->set_response($response, \Restserver\Libraries\REST_Controller::HTTP_INTERNAL_SERVER_ERROR);
+            }
+
+        } else {
+            $response['message'] = "Error processing input";
+            $response['isUpdated'] = false;
+            $this->set_response($response, \Restserver\Libraries\REST_Controller::HTTP_BAD_REQUEST);
+        }
+    }
+
     function removeAnswer_post() {
         $isLoggedIn = (boolean)$this->input->post('isLoggedIn');
 
