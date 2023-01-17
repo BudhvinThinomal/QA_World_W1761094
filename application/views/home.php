@@ -50,8 +50,8 @@
                 <img src="<?php echo(base_url());?>assets/images/options-outline.svg" alt="Filter"/>
                 <p>2</p>
             </div>
-            <div class="question">
-                <a href="<?php echo(base_url());?>index.php/Question">Post a Question</a>
+            <div class="postQuestion">
+                <a href="<?php echo(base_url());?>index.php/CreateQuestion">Post a Question</a>
             </div>
         </div>
        
@@ -60,7 +60,7 @@
             <div class="questionContainer">
                 <div class="questionContainer__left">
                     <div class="questionContainer__left__top">
-                        <a href="<?php echo(base_url());?>index.php/Home">How to perform form validation for a required field in HTML ?</a>
+                        <a href="<?php echo(base_url());?>index.php/Question">How to perform form validation for a required field in HTML ?</a>
                     </div>
                     <div class="questionContainer__left__bottom">
                        

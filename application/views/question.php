@@ -17,47 +17,59 @@
 
 <body>
     <div class="container">
-            <div class="container__section navigation">
-                <div class="navigation_logo">
-                    <a href="<?php echo(base_url());?>index.php/Home">
-                        <img src="<?php echo(base_url());?>assets/images/QAWorldNav.png" alt="QAWorldLogo"/>
-                    </a>
-                </div>
+        <div class="container__section navigation">
+            <div class="navigation_logo">
+                <a href="<?php echo(base_url());?>index.php/Home">
+                    <img src="<?php echo(base_url());?>assets/images/QAWorldNav.png" alt="QAWorldLogo"/>
+                </a>
+            </div>
 
-                <div class="navigation__title">
-                        <h2>Question Time!!</h2>
-                </div>
-                
-                <div class="navigation__btn">
-                    <img src="<?php echo(base_url());?>assets/images/notifications-outline.svg" alt="Notifications"/>
-                    <img src="<?php echo(base_url());?>assets/images/person-outline.svg" alt="Account"/>
-                </div>
+            <div class="navigation__title">
+                    <h2>Question!!</h2>
             </div>
             
-            <div class="container__section crtQuestionSlider">
-                   
-                <div class="crtQuestion__container sec01" >
-                    <h2>Enter the Question Title</h2>
-                    <input type="text" placeholder="Type in here" />
-
-                    <h2>Describe your Problem</h2>
-                    <textarea rows="10" maxlength="200" style="resize:none;"></textarea>
-
-                    <h2>Tags</h2>
-                    <input type="text" placeholder="Type in here" />
-
-                    <div class="help">
-                        <p>
-                            <b>Add a comma after each tag</b>.&nbsp;(Maximum &nbsp;<b>5 tags</b>&nbsp;)
-                        </p>
-                    </div>
-
-                    <div class="btnSec">
-                        <a href="#">Post</a>
-                    </div>
-                </div>
-                      
+            <div class="navigation__btn">
+                <img src="<?php echo(base_url());?>assets/images/notifications-outline.svg" alt="Notifications"/>
+                <img src="<?php echo(base_url());?>assets/images/person-outline.svg" alt="Account"/>
             </div>
+        </div>
+        
+        <div class="container__section questionNanswers">
+            <div class="questionContainer">
+                <div class="questionContainer__top">
+                    <h2>How to perform form validation for a required field in HTML ?</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="container__section headings">
+            <div class="headingContainer">
+                <div class="headings__text">
+                    <h2>Answers</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="container__section questionNanswers">
+            <div class="answerContainer">
+                <div class="answerContainer__bottom">
+                    <p>Required attribute: If you want to make an input mandatory to be entered by the user, you can use the required attribute. This attribute can be used with any input type such as email, URL, text, file, password, checkbox, radio, etc. This can help to make any input field mandatory.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="container__section createAnsSection">
+            <div class="createAnsSection__container section" >
+
+                <h2>Your Answer</h2>
+                <textarea rows="20" maxlength="500" style="resize:none;"></textarea>
+
+                <div class="postBtn">
+                    <a href="#">Post</a>
+                </div>
+            </div>
+                    
+        </div>
     </div>
 
 </body>
