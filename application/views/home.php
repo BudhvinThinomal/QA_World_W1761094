@@ -42,26 +42,49 @@
                 </div>
             </div>
         </div>
-       
-        <div class="container__main">
-            <!-- Section 01 Logo -->
-            <!-- <div class="container__main-logo">
-                <img src="<?php echo (base_url()); ?>assets/images/QAWorldMain.png" alt="QAWorld" />
-            </div> -->
 
-            <!-- Sub Section 02 Description -->
-            <!-- <div class="container__sec">
-                <p class="container_p">
-                    Technology like art is a soaring exercise of the human imagination
-                </p>
-            </div> -->
+        <!-- Filtering section -->
+        <div class="container__section midSection">
             
-            <!-- Sub Section 03 Start button section -->
-            <!-- <div class="container__sec_two btn">
-                <button>Start Journey</button>
-            </div> -->
+            <div class="filter">
+                <img src="<?php echo(base_url());?>assets/images/options-outline.svg" alt="Filter"/>
+                <p>2</p>
+            </div>
+            <div class="question">
+                <a href="<?php echo(base_url());?>index.php/Question">Post a Question</a>
+            </div>
         </div>
-    </div>
-</body>
+       
+       <!-- question section -->
+       <div class="container__section questions">
+            <div class="questionContainer">
+                <div class="questionContainer__left">
+                    <div class="questionContainer__left__top">
+                        <a href="<?php echo(base_url());?>index.php/Home">How to perform form validation for a required field in HTML ?</a>
+                    </div>
+                    <div class="questionContainer__left__bottom">
+                       
+                            <div class="left">
+                                <div class="tag">
+                                    <p>#Code</p>
+                                </div>
+                            </div>
+                            <div class="right">
+                            <div class="likes">
+                                <img src="<?php echo(base_url());?>assets/images/like.svg" alt="like"/>
+                                <p>12</p>
+                            </div>
+                            <div class="dislikes">
+                                <img src="<?php echo(base_url());?>assets/images/dislike.svg" alt="dislike"/>
+                                <p>01</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
+    </div>
+
+</body>
 </html>
