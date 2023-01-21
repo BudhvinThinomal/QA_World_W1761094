@@ -14,7 +14,7 @@ class User extends \Restserver\Libraries\REST_Controller
     }
 
     //Validation about user availability
-    function checkAvailability_get()
+    function checkUserDataAvailability_get()
     {
         $username = $this->input->get('username');
 

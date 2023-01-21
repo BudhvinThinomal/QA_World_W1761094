@@ -60,11 +60,16 @@ class User_model extends CI_Model
                 
                 $this->session->set_userdata('username', $username);
                 $this->session->set_userdata('password', password_hash($password, PASSWORD_DEFAULT));
+                $this->session->set_userdata('logged_in', TRUE);
+                //$this->session->unset_userdata('logged_in');
+                $this->session->set_flashdata('error');
                 return true;
             } else {
+                $this->session->set_flashdata('error', 'Invalid login credentials');
                 return false;
             }
         } else {
+            $this->session->set_flashdata('error', 'Invalid login credentials');
             return false;
         }
     }
@@ -98,6 +103,8 @@ class User_model extends CI_Model
 
             $this->session->set_userdata('username', $username);
             $this->session->set_userdata('password', password_hash($password, PASSWORD_DEFAULT));
+            $this->session->set_userdata('logged_in', TRUE);
+            $this->session->set_flashdata('error');
             return $response;
         } else {
             $response["message"] = "User Creation Unsuccessful!!";
