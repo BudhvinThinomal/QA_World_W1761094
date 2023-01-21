@@ -12,7 +12,7 @@ class User extends \Restserver\Libraries\REST_Controller
         $this->load->model('user_model');
     }
 
-
+    //Validation about user availability
     function checkAvailability_get()
     {
         $username = $this->input->get('username');
@@ -22,6 +22,7 @@ class User extends \Restserver\Libraries\REST_Controller
         $this->set_response($response, \Restserver\Libraries\REST_Controller::HTTP_OK);
     }
 
+    //Function for check and authenticates user by username and password to login
     function login_post()
     {
         $username = $this->input->post('username');
@@ -32,6 +33,7 @@ class User extends \Restserver\Libraries\REST_Controller
         $this->set_response($modelResponse, \Restserver\Libraries\REST_Controller::HTTP_OK);
     }
 
+    //Function for check and register user by username, fullname and password
     function signin_post()
     {
         $username = $this->input->post('username');

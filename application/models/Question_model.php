@@ -10,6 +10,7 @@ class Question_model extends CI_Model
         date_default_timezone_set("Asia/Colombo");
     }
 
+    //Function for return all the questions from database
     function all_questions()
     {
         $result = $this->db->query("SELECT * FROM `question_details`;");
@@ -37,6 +38,7 @@ class Question_model extends CI_Model
         }
     }
 
+    //Function for return one perticular question
     function question($questionID)
     {
         $this->db->where('questionID', $questionID);
@@ -65,6 +67,7 @@ class Question_model extends CI_Model
         }
     }
 
+    //Function for create new question
     function create_question($questionTitle, $questionDescription, $tags, $username, $isLoggedIn)
     {
         $timeSatmp = date("Y-m-d h:i:s");
@@ -97,7 +100,7 @@ class Question_model extends CI_Model
         }
     }
 
-
+    //Function for update existing question
     function update_question($questionID, $questionTitle, $questionDescription, $tags, $username, $isLoggedIn)
     {
         $timeSatmp = date("Y-m-d h:i:s");
@@ -125,6 +128,7 @@ class Question_model extends CI_Model
         }
     }
 
+    //Function for remove existing question
     function remove_question($questionID, $username, $isLoggedIn)
     {
         $result = $this->db->delete('question_details', array('questionID' => $questionID));
@@ -132,7 +136,7 @@ class Question_model extends CI_Model
         return $result;       
     }
 
-    
+    //Function for return all the questions in releavant time period from database 
     function getTimed_questions($t) {
         $time = date('Y-m-d H:i:s', strtotime('-' . $t . ' hour'));
 
@@ -163,7 +167,8 @@ class Question_model extends CI_Model
         return $response;
     }
 
-    function update_question_otes($request) {
+    //Function for update votes for each question
+    function update_question_votes($request) {
         $requestParm['username'] = $request['username'];
         $requestParm['isLoggedIn'] = $request['isLoggedIn'];
 

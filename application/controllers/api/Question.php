@@ -12,6 +12,7 @@ class Question extends \Restserver\Libraries\REST_Controller {
         $this->load->model('user_model');
     }
 
+    //Function for return all the questions from database
     function allQuestions_get() {
         $response = $this->question_model->all_questions();
 
@@ -19,6 +20,7 @@ class Question extends \Restserver\Libraries\REST_Controller {
         
     }
 
+    //Function for return one perticular question from database
     function question_get() {
         $questionID = $this->input->get('questionID');
 
@@ -28,6 +30,7 @@ class Question extends \Restserver\Libraries\REST_Controller {
         
     }
     
+    //Function for create new question
     function createQuestion_post() {
         $questionTitle = $this->input->post('questionTitle');
         $questionDescription = $this->input->post('questionDescription');
@@ -40,6 +43,7 @@ class Question extends \Restserver\Libraries\REST_Controller {
         $this->set_response($response, \Restserver\Libraries\REST_Controller::HTTP_CREATED);
     } 
 
+    //Function for update existing question
     function updateQuestion_post() {
         $questionID = $this->input->post('questionID');
         $questionTitle = $this->input->post('questionTitle');
@@ -53,6 +57,7 @@ class Question extends \Restserver\Libraries\REST_Controller {
         $this->set_response($response, \Restserver\Libraries\REST_Controller::HTTP_CREATED);
     }
 
+    //Function for remove question
     function removeQuestion_post() {
         $questionID = $this->input->post('questionID');
         $username = $this->input->post('username');
@@ -63,7 +68,7 @@ class Question extends \Restserver\Libraries\REST_Controller {
         $this->set_response($response, \Restserver\Libraries\REST_Controller::HTTP_CREATED);
     }
 
-        
+    //Function for filter existing question    
     function filterQuestion_get() {
         $response = $this->question_model->get_filter();
 
@@ -74,6 +79,7 @@ class Question extends \Restserver\Libraries\REST_Controller {
         }
     }
 
+    //Function for update votes for each question
     function updateQuetionVotes_post() {
         $requestJson['questionID'] = $this->input->post('questionID');
         $requestJson['username'] = $this->input->post('username'); // Current user username;

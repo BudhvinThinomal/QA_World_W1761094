@@ -12,6 +12,7 @@ class Answer extends \Restserver\Libraries\REST_Controller {
         $this->load->model('user_model');
     }
 
+    //Function for return all the answers from database
     function allAnswers_get() {
         $questionID = $this->input->get('questionID');
         $username = $this->input->post('username');
@@ -21,6 +22,7 @@ class Answer extends \Restserver\Libraries\REST_Controller {
         $this->set_response($response, \Restserver\Libraries\REST_Controller::HTTP_OK);
     }
 
+    //Function for create new answer
     function createAnswers_post() {
         $isLoggedIn = $this->input->post('isLoggedIn');
 
@@ -33,6 +35,7 @@ class Answer extends \Restserver\Libraries\REST_Controller {
         $this->set_response($response, \Restserver\Libraries\REST_Controller::HTTP_CREATED);
     }
 
+    //Function for update existing answer
     function updateAnswers_post() {
         $isLoggedIn = (boolean)$this->input->post('isLoggedIn');
 
@@ -45,6 +48,7 @@ class Answer extends \Restserver\Libraries\REST_Controller {
         $this->set_response($response, \Restserver\Libraries\REST_Controller::HTTP_CREATED);
     }
 
+    //Function for update votes for each answer
     function updateAnswerVote_post() {
         $requestJson['answerID'] = $this->input->post('answerID');
         $requestJson['username'] = $this->input->post('username');
@@ -67,6 +71,7 @@ class Answer extends \Restserver\Libraries\REST_Controller {
         }
     }
 
+    //Function for remove answer
     function removeAnswer_post() {
         $isLoggedIn = (boolean)$this->input->post('isLoggedIn');
 

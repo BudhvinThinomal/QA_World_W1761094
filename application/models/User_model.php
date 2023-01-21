@@ -9,6 +9,7 @@ class User_model extends CI_Model
         $this->load->database();
     }
 
+    //Validation about user availability
     function check_availability($request)
     {
         $this->db->where('username', $request);
@@ -37,24 +38,47 @@ class User_model extends CI_Model
         }
     }
 
+    //Function for check and authenticates user by username and password to login
     function authenticate_user($username, $password)
     {
-        $this->db->where('username', $username);
+        $this->db->where('username', $request);
         $result = $this->db->get('user_details');
 
-        $responseArray = $result->row_array();
+        $resultArray = array();
 
-        if(empty($responseArray)) {
-            return false;
-        } else {
-            if (password_verify($password, $responseArray['password'])) {
-                return true;
-            } else {
-                return false;
-            }
+        foreach ($result->result() as $row) {
+            $resultArray[] = $row;
         }
+
+        $isValid = !empty($resultArray);
+
+        if ($isValid) {
+            $response["message"] = "User Exist";
+            $response["isValid"] = $isValid;
+            $response["result"] = $resultArray;
+
+            return $response;
+        } else {
+            $response["message"] = "User does not Exist";
+            $response["isValid"] = $isValid;
+            $response["result"] = $resultArray;
+
+            return $response;
+        }
+
+        // if($availableUser.isValid) {
+            
+        //     if (password_verify($password, $responseArray['password'])) {
+        //         return true;
+        //     } else {
+        //         return false;
+        //     }
+        // } else {
+        //     return false;
+        // }
     }
 
+    //Function for check and register user by username, fullname and password
     function create_user($username, $fullName, $password)
     {
         $this->db->where('username', $username);

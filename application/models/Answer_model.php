@@ -11,6 +11,7 @@ class Answer_model extends CI_Model
         date_default_timezone_set("Asia/Colombo");
     }
 
+    //Function for return all the answers from database
     function all_answers($questionID, $username)
     {
         $this->db->where('questionID', $questionID);
@@ -39,6 +40,7 @@ class Answer_model extends CI_Model
         }
     }
 
+    //Function for create new answer
     function create_answer($answerDescription, $questionID, $username)
     {
 
@@ -70,6 +72,7 @@ class Answer_model extends CI_Model
         }
     }
 
+    //Function for update existing answer
     function update_answer($answerDescription, $answerID, $username)
     {
         $timeSatmp = date("Y-m-d h:i:s");
@@ -95,6 +98,7 @@ class Answer_model extends CI_Model
         }
     }
 
+    //Function for return one perticular answer
     function get_answer($answerID)
     {
         $this->db->where('answerID', $answerID);
@@ -113,6 +117,7 @@ class Answer_model extends CI_Model
         return $response;
     }
 
+    //Function for return number of votes for each answer
     function get_vote($voteType, $answerID)
     {
         if ($voteType == "like") {
@@ -133,6 +138,7 @@ class Answer_model extends CI_Model
         return $dataObject[0];
     }
 
+    //Function for update votes for each answer
     function update_answer_votes($request)
     {
         $requestParm['username'] = $request['username'];
@@ -183,6 +189,7 @@ class Answer_model extends CI_Model
         }
     }
 
+    //Function for remove existing answer
     function remove_answer($request)
     {
         $requestParm['username'] = $request['username'];
