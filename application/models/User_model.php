@@ -7,7 +7,7 @@ class User_model extends CI_Model
     {
         parent::__construct();
         $this->load->database();
-        $this->load->library('session');
+        // $this->load->library('session');
     }
 
     //Validation about user availability
@@ -58,18 +58,18 @@ class User_model extends CI_Model
 
             if (password_verify($password, $convertedPass[0]['password'])) {
                 
-                $this->session->set_userdata('username', $username);
-                $this->session->set_userdata('password', password_hash($password, PASSWORD_DEFAULT));
-                $this->session->set_userdata('logged_in', TRUE);
-                //$this->session->unset_userdata('logged_in');
-                $this->session->set_flashdata('error');
+                // $this->session->set_userdata('username', $username);
+                // $this->session->set_userdata('password', password_hash($password, PASSWORD_DEFAULT));
+                // $this->session->set_userdata('logged_in', TRUE);
+                // //$this->session->unset_userdata('logged_in');
+                // $this->session->set_flashdata('error');
                 return true;
             } else {
-                $this->session->set_flashdata('error', 'Invalid login credentials');
+                // $this->session->set_flashdata('error', 'Invalid login credentials');
                 return false;
             }
         } else {
-            $this->session->set_flashdata('error', 'Invalid login credentials');
+            // $this->session->set_flashdata('error', 'Invalid login credentials');
             return false;
         }
     }
@@ -101,10 +101,10 @@ class User_model extends CI_Model
             $response["message"] = "User Created Successfully!!";
             $response["isValid"] = $result;
 
-            $this->session->set_userdata('username', $username);
-            $this->session->set_userdata('password', password_hash($password, PASSWORD_DEFAULT));
-            $this->session->set_userdata('logged_in', TRUE);
-            $this->session->set_flashdata('error');
+            // $this->session->set_userdata('username', $username);
+            // $this->session->set_userdata('password', password_hash($password, PASSWORD_DEFAULT));
+            // $this->session->set_userdata('logged_in', TRUE);
+            // $this->session->set_flashdata('error');
             return $response;
         } else {
             $response["message"] = "User Creation Unsuccessful!!";

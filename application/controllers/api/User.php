@@ -10,7 +10,7 @@ class User extends \Restserver\Libraries\REST_Controller
     {
         parent::__construct();
         $this->load->model('user_model');
-        $this->load->library('session');
+        // $this->load->library('session');
     }
 
     //Validation about user availability
@@ -32,17 +32,17 @@ class User extends \Restserver\Libraries\REST_Controller
     }
 
     //Function for check session availability
-    function sessionAvailability_get() {
-        $username = $this->session->userdata('username');
+    // function sessionAvailability_get() {
+    //     $username = $this->session->userdata('username');
 
-        if ($username) {
-            $this->set_response($username, \Restserver\Libraries\REST_Controller::HTTP_OK);
-        } else{
-            $response = "User cannot find!!";
+    //     if ($username) {
+    //         $this->set_response($username, \Restserver\Libraries\REST_Controller::HTTP_OK);
+    //     } else{
+    //         $response = "User cannot find!!";
 
-            $this->set_response($response, \Restserver\Libraries\REST_Controller::HTTP_BAD_REQUEST);
-        }
-    }
+    //         $this->set_response($response, \Restserver\Libraries\REST_Controller::HTTP_BAD_REQUEST);
+    //     }
+    // }
 
     //Function for check and authenticates user by username and password to login
     function login_post()
