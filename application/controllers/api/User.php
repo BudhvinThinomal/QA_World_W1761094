@@ -12,6 +12,12 @@ class User extends \Restserver\Libraries\REST_Controller
         $this->load->model('user_model');
     }
 
+    //index function
+    public function index_get() {
+        header("Location: " . base_url() . "index.php/");
+        exit();
+    }
+
     //Validation about user availability
     function checkUserDataAvailability_get()
     {
