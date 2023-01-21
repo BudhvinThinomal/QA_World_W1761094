@@ -75,9 +75,9 @@ CREATE TABLE `answer_votes` (
 );
 
 CREATE TABLE `ci_sessions` (
-    `id` varchar(128) NOT NULL,
-    `ip_address` varchar(45) NOT NULL,
-    `timestamp` int(10) UNSIGNED NOT NULL DEFAULT 0,
-    `data` blob NOT NULL,
-    KEY `ci_sessions_timestamp` (`timestamp`)
+	`id` varchar(128) NOT NULL,
+	`ip_address` varchar(45) NOT NULL,
+	`timestamp` int(10) UNSIGNED DEFAULT 0 NOT NULL,
+	`data` blob NOT NULL,
+	KEY `ci_sessions_timestamp` (`timestamp`)
 );
