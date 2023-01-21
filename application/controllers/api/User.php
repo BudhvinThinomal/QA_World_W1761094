@@ -17,9 +17,17 @@ class User extends \Restserver\Libraries\REST_Controller
     {
         $username = $this->input->get('username');
 
-        $response = $this->user_model->check_availability($username);
+        if ($username) {
+            $modelResponse = $this->user_model->check_availability($username);
 
-        $this->set_response($response, \Restserver\Libraries\REST_Controller::HTTP_OK);
+            $this->set_response($modelResponse, \Restserver\Libraries\REST_Controller::HTTP_OK);
+        } else{
+            $response["message"] = "Username not entered!!";
+            $response["isValid"] = $isValid;
+            $response["result"] = $resultArray;
+
+            $this->set_response($response, \Restserver\Libraries\REST_Controller::HTTP_BAD_REQUEST);
+        }
     }
 
     //Function for check and authenticates user by username and password to login
@@ -28,9 +36,15 @@ class User extends \Restserver\Libraries\REST_Controller
         $username = $this->input->post('username');
         $password = $this->input->post('password');
 
-        $modelResponse = $this->user_model->authenticate_user($username, $password);
+        if ($username and $password) {
+            $modelResponse = $this->user_model->authenticate_user($username, $password);
 
-        $this->set_response($modelResponse, \Restserver\Libraries\REST_Controller::HTTP_OK);
+            $this->set_response($modelResponse, \Restserver\Libraries\REST_Controller::HTTP_OK);
+        } else{
+            $response = false;
+
+            $this->set_response($response, \Restserver\Libraries\REST_Controller::HTTP_BAD_REQUEST);
+        }
     }
 
     //Function for check and register user by username, fullname and password
@@ -40,8 +54,15 @@ class User extends \Restserver\Libraries\REST_Controller
         $username = $this->input->post('username');
         $password = $this->input->post('password');
 
-        $modelResponse = $this->user_model->create_user($fullName, $username, $password);
+        if ($fullName and $username and $password) {
+            $modelResponse = $this->user_model->create_user($fullName, $username, $password);
 
-        $this->set_response($modelResponse, \Restserver\Libraries\REST_Controller::HTTP_CREATED);
+            $this->set_response($modelResponse, \Restserver\Libraries\REST_Controller::HTTP_CREATED);
+        } else{
+            $response["message"] = "User Creation Unsuccessful!!";
+            $response["isValid"] = false;
+
+            $this->set_response($response, \Restserver\Libraries\REST_Controller::HTTP_BAD_REQUEST);
+        }
     }
 }

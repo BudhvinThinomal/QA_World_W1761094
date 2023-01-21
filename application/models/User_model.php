@@ -24,13 +24,13 @@ class User_model extends CI_Model
         $isValid = !empty($resultArray);
 
         if ($isValid) {
-            $response["message"] = "User Exist";
+            $response["message"] = "User Exist!!";
             $response["isValid"] = $isValid;
             $response["result"] = $resultArray;
 
             return $response;
         } else {
-            $response["message"] = "User does not Exist";
+            $response["message"] = "User does not Exist!!";
             $response["isValid"] = $isValid;
             $response["result"] = $resultArray;
 
@@ -74,7 +74,7 @@ class User_model extends CI_Model
         $responseArray = $verification->row_array();
         
         if(!empty($responseArray)) {
-            $response["message"] = "Username already exists!";
+            $response["message"] = "Username already exists!!";
             $response["isValid"] = false;
 
             return $response;
@@ -89,12 +89,12 @@ class User_model extends CI_Model
         ));
 
         if ($result) {
-            $response["message"] = "User Created Successfully!";
+            $response["message"] = "User Created Successfully!!";
             $response["isValid"] = $result;
 
             return $response;
         } else {
-            $response["message"] = "User Creation Unsuccessful!";
+            $response["message"] = "User Creation Unsuccessful!!";
             $response["isValid"] = $result;
 
             return $response;
