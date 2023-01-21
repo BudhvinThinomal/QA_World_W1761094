@@ -36,11 +36,11 @@ class User extends \Restserver\Libraries\REST_Controller
     //Function for check and register user by username, fullname and password
     function signin_post()
     {
-        $username = $this->input->post('username');
         $fullName = $this->input->post('fullName');
+        $username = $this->input->post('username');
         $password = $this->input->post('password');
 
-        $modelResponse = $this->user_model->create_user($username, $fullName, $password);
+        $modelResponse = $this->user_model->create_user($fullName, $username, $password);
 
         $this->set_response($modelResponse, \Restserver\Libraries\REST_Controller::HTTP_CREATED);
     }

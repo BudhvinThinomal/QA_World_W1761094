@@ -41,7 +41,7 @@ class User_model extends CI_Model
     //Function for check and authenticates user by username and password to login
     function authenticate_user($username, $password)
     {
-        $this->db->where('username', $request);
+        $this->db->where('username', $username);
         $result = $this->db->get('user_details');
 
         $resultArray = array();
@@ -49,43 +49,30 @@ class User_model extends CI_Model
         foreach ($result->result() as $row) {
             $resultArray[] = $row;
         }
-
+        
         $isValid = !empty($resultArray);
 
-        if ($isValid) {
-            $response["message"] = "User Exist";
-            $response["isValid"] = $isValid;
-            $response["result"] = $resultArray;
+        if($isValid) {
+            $convertedPass = json_decode(json_encode($resultArray), true);
 
-            return $response;
+            if (password_verify($password, $convertedPass[0]['password'])) {
+                return true;
+            } else {
+                return false;
+            }
         } else {
-            $response["message"] = "User does not Exist";
-            $response["isValid"] = $isValid;
-            $response["result"] = $resultArray;
-
-            return $response;
+            return false;
         }
-
-        // if($availableUser.isValid) {
-            
-        //     if (password_verify($password, $responseArray['password'])) {
-        //         return true;
-        //     } else {
-        //         return false;
-        //     }
-        // } else {
-        //     return false;
-        // }
     }
 
     //Function for check and register user by username, fullname and password
-    function create_user($username, $fullName, $password)
+    function create_user($fullName, $username, $password)
     {
         $this->db->where('username', $username);
         $verification = $this->db->get('user_details');
 
         $responseArray = $verification->row_array();
-
+        
         if(!empty($responseArray)) {
             $response["message"] = "Username already exists!";
             $response["isValid"] = false;
