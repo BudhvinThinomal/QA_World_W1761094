@@ -36,6 +36,15 @@ class User extends \Restserver\Libraries\REST_Controller
         }
     }
 
+    //Function for check login
+    function isLoggedIn_get()
+    {
+        $response = $this->user_model->is_loggedin();
+
+        $this->set_response($response, \Restserver\Libraries\REST_Controller::HTTP_OK);
+        
+    }
+
     //Function for check and authenticates user by username and password to login
     function login_post()
     {
@@ -50,6 +59,20 @@ class User extends \Restserver\Libraries\REST_Controller
             $response = false;
 
             $this->set_response($response, \Restserver\Libraries\REST_Controller::HTTP_BAD_REQUEST);
+        }
+    }
+
+    //Function for logout
+    function logout_get()
+    {
+        if ($this->user_model->get_username()) {
+            $modelResponse = $this->user_model->logout_user($this->user_model->get_username());
+
+            $this->set_response($modelResponse, \Restserver\Libraries\REST_Controller::HTTP_OK);
+        } else{
+            $response = false;
+
+            $this->set_response($response, \Restserver\Libraries\REST_Controller::HTTP_OK);
         }
     }
 

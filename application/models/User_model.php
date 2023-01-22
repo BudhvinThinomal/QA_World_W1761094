@@ -20,6 +20,15 @@ class User_model extends CI_Model
         }
     }
 
+    //Function for get username
+    function get_username() {
+        if(isset($this->session->username)) {
+            return $this->session->username;
+        } else {
+            return false;
+        }
+    }
+
     //Validation about user availability
     function check_availability($request)
     {
@@ -69,12 +78,23 @@ class User_model extends CI_Model
             if (password_verify($password, $convertedPass[0]['password'])) {
                 
                 $this->session->username = $username;
-                $this->session->password = password_hash($password, PASSWORD_DEFAULT);
                 $this->session->is_loggedin = true;
                 return true;
             } else {
                 return false;
             }
+        } else {
+            return false;
+        }
+    }
+
+    //Function for user logout
+    function logout_user($username)
+    {
+        if($username) { 
+            $this->session->username = $username;
+            $this->session->is_loggedin = false;
+            return true;
         } else {
             return false;
         }
@@ -108,7 +128,6 @@ class User_model extends CI_Model
             $response["isValid"] = $result;
 
             $this->session->username = $username;
-            $this->session->password = password_hash($password, PASSWORD_DEFAULT);
             $this->session->is_loggedin = true;
             return $response;
         } else {

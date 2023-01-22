@@ -118,8 +118,14 @@
                     <p class="container__left-p">
                         Technology like art is a soaring exercise of the human imagination
                     </p>
+
+                    <!-- Section 02 link to home page -->
+                    <div class="btm a">
+                        <p >Go to main page</p>
+                        <a href="<?php echo (base_url()); ?>index.php/Home">Home Page</a>
+                    </div>
                     
-                    <!-- Section 02 link to sign up page -->
+                    <!-- Section 03 link to sign up page -->
                     <div class="btm a">
                         <p >Already a member ?</p>
                         <a href="<?php echo (base_url()); ?>index.php/Login">Log In</a>

@@ -101,7 +101,13 @@
                             Technology like art is a soaring exercise of the human imagination
                         </p>
                         
-                        <!-- Section 02 link to sign up page -->
+                        <!-- Section 02 link to home page -->
+                        <div class="btm a">
+                            <p >Go to main page</p>
+                            <a href="<?php echo (base_url()); ?>index.php/Home">Home Page</a>
+                        </div>
+                        
+                        <!-- Section 03 link to sign up page -->
                         <div class="btm a">
                             <p >Not a member yet ?</p>
                             <a href="<?php echo (base_url()); ?>index.php/Signin">Sign In</a>
@@ -126,18 +132,6 @@
                             <div>
                                 <p>Password</p>
                                 <input type="password" id="password" name="password" placeholder="Enter your Password" required/>
-                            </div>
-                        </div>
-
-                        <!-- Section 04 Checkbox and fergot password part -->
-                        <div class="container__right-sec">
-                            <div>
-                                <div class="chk">
-                                    <div class="checboxContainer">
-                                        <input type="checkbox" id="rememberCheck" />
-                                        <label for="rememberCheck">Remember me</label>
-                                    </div>
-                                </div>
                             </div>
                         </div>
 
