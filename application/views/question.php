@@ -13,6 +13,14 @@
     <link rel="stylesheet" type="text/css" href="<?php echo (base_url()); ?>assets/css/question.css">
     <!-- Navbar styles -->
     <link rel="stylesheet" type="text/css" href="<?php echo (base_url()); ?>assets/css/navbar.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.3.3/backbone-min.js"></script>
+
+    <script>
+        $searchParams = new URLSearchParams(window.location.search);
+    </script>
 </head>
 
 <body>
@@ -24,9 +32,9 @@
         
         <div class="container__section questionNanswers">
             <div class="questionContainer">
-                <div class="questionContainer__top">
-                    <h2>How to perform form validation for a required field in HTML ?</h2>
-                </div>
+                <!-- question section -->
+                <div class="questionContainer__top" id="question-element"></div>
+                <div class="questionContainer__inner__bottom"></div>
             </div>
         </div>
 
@@ -39,11 +47,7 @@
         </div>
 
         <div class="container__section questionNanswers">
-            <div class="answerContainer">
-                <div class="answerContainer__bottom">
-                    <p>Required attribute: If you want to make an input mandatory to be entered by the user, you can use the required attribute. This attribute can be used with any input type such as email, URL, text, file, password, checkbox, radio, etc. This can help to make any input field mandatory.</p>
-                </div>
-            </div>
+            <div class="answerContainer" id="answer-element"></div>  
         </div>
 
         <div class="container__section createAnsSection">
@@ -59,6 +63,77 @@
                     
         </div>
     </div>
+
+    <script type="text/template" id="question-template">
+        <% _.each(data, function(item) { %>
+            <h2><%= item?.questionTitle %></h2>
+            <h3>Description: <%= item?.questionDescription %></h3>  
+            <p>Created by: <%= item?.username %></p>   
+        <% }); %>
+    </script>
+
+    <!-- Backbone model for display a question -->
+    <script>
+        var QuestionModel = Backbone.Model.extend({
+            url: "<?php echo (base_url()); ?>index.php/api/Question/question?questionID="+$searchParams.get('questionID'),
+            parse: function(response) {
+                return response;
+            }
+        });
+
+        var QuestionView = Backbone.View.extend({
+        el: '#question-element',
+        template: _.template($('#question-template').html()),
+        initialize: function() {
+            this.model = new QuestionModel();
+            this.model.fetch();
+            this.listenTo(this.model, 'sync', this.render);
+        },
+        render: function() {
+            var data = this.model.toJSON();
+            this.$el.html(this.template({data: data?.result}));
+        }
+        });
+
+        var questionView = new QuestionView();
+    </script>
+
+    <script type="text/template" id="answer-template">
+        <% _.each(data, function(item) { %>
+            <div class="answerContainer_inner" >
+                <p><%= item?.answerDescription %></p> 
+            </div>  
+        <% }); %>
+    </script>
+
+    <!-- Backbone model for display answers -->
+    <script>
+        var AnswerModel = Backbone.Model.extend({
+            url: "<?php echo (base_url()); ?>index.php/api/Answer/allAnswers?questionID="+$searchParams.get('questionID'),
+            parse: function(response) {
+                return response;
+            }
+        });
+
+        var AnswerView = Backbone.View.extend({
+        el: '#answer-element',
+        template: _.template($('#answer-template').html()),
+        initialize: function() {
+            this.model = new AnswerModel();
+            this.model.fetch();
+            this.listenTo(this.model, 'sync', this.render);
+        },
+        render: function() {
+            var data = this.model.toJSON();
+            if (data?.result?.length == 0) {
+                data.result[0] = {answerDescription: "No Answers Posted Yet!!"};
+            }
+            this.$el.html(this.template({data: data?.result}));
+        }
+        });
+
+        var answerView = new AnswerView();
+    </script>
 
 </body>
 </html>

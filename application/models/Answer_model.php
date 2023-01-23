@@ -12,7 +12,7 @@ class Answer_model extends CI_Model
     }
 
     //Function for return all the answers from database
-    function all_answers($questionID, $username)
+    function all_answers($questionID)
     {
         $this->db->where('questionID', $questionID);
         $result = $this->db->get('answer_details');
@@ -26,13 +26,13 @@ class Answer_model extends CI_Model
         $isValid = !empty($resultArray);
 
         if ($isValid) {
-            $response["message"] = "Answers Exist";
+            $response["message"] = "Answers Exist!!";
             $response["isValid"] = $isValid;
             $response["result"] = $resultArray;
 
             return $response;
         } else {
-            $response["message"] = "Answers does not Exist";
+            $response["message"] = "Answers does not Exist!!";
             $response["isValid"] = $isValid;
             $response["result"] = $resultArray;
 
@@ -60,12 +60,12 @@ class Answer_model extends CI_Model
         ));
 
         if ($result) {
-            $response["message"] = "Answer Created Successfully!";
+            $response["message"] = "Answer Created Successfully!!";
             $response["isValid"] = $result;
 
             return $response;
         } else {
-            $response["message"] = "Answer Creation Unsuccessful!";
+            $response["message"] = "Answer Creation Unsuccessful!!";
             $response["isValid"] = $result;
 
             return $response;
@@ -86,12 +86,12 @@ class Answer_model extends CI_Model
         $result = $this->db->update('answer_details', $updatedData);
 
         if ($result) {
-            $response["message"] = "Answer Updated Successfully!";
+            $response["message"] = "Answer Updated Successfully!!";
             $response["isValid"] = $result;
 
             return $response;
         } else {
-            $response["message"] = "Answer Updating Process Unsuccessful!";
+            $response["message"] = "Answer Updating Process Unsuccessful!!";
             $response["isValid"] = $result;
 
             return $response;
@@ -190,52 +190,9 @@ class Answer_model extends CI_Model
     }
 
     //Function for remove existing answer
-    function remove_answer($request)
-    {
-        $requestParm['username'] = $request['username'];
-        $requestParm['isLoggedIn'] = $request['isLoggedIn'];
+    function remove_answer($answerID){
+        $result = $this->db->delete('answer_details', array('answerID' => $answerID));
 
-        if ($this->question_model->validate_parameters($requestParm)) {
-            if ($request['deleteType'] == "single" and $this->get_answer($request['answerID'])) {
-
-                $result = $this->db->delete('answer', array('answerID' => $request['answerID']));
-
-                if ($result) {
-                    $response['message'] = "Answer deleted successfully.";
-                    $response['isDeleted'] = true;
-                    return $response;
-                } else {
-                    $error = $this->db->error();
-
-                    $response['message'] = "Something went wrong.";
-                    $response['isDeleted'] = false;
-                    $response['data'] = $error;
-                    return $response;
-                }
-            } else if ($request['deleteType'] == "multi" and $this->question_model->check_question($request['questionID'])) { // Need rechecking
-                $result = $this->db->delete('answer', array('questionID' => $request['questionID']));
-
-                if ($result) {
-                    $response['message'] = "All answers deleted successfully.";
-                    $response['isDeleted'] = true;
-                    return $response;
-                } else {
-                    $error = $this->db->error();
-
-                    $response['message'] = "Something went wrong.";
-                    $response['isDeleted'] = false;
-                    $response['data'] = $error;
-                    return $response;
-                }
-            } else {
-                $response['message'] = "Request is not valid. Please check and try again.";
-                $response['isDeleted'] = true;
-                return $response;
-            }
-        } else {
-            $response['message'] = "User not valid.";
-            $response['isDeleted'] = false;
-            return $response;
-        }
+        return $result;   
     }
 }

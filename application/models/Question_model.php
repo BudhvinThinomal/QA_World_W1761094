@@ -31,7 +31,7 @@ class Question_model extends CI_Model
         } else {
             $response["message"] = "Questions does not Exist!!";
             $response["isValid"] = $isValid;
-            $response["result"] = json_decode(json_encode($resultArray), true);
+            $response["result"] = [];
 
             return $response;
         }

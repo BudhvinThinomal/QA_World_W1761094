@@ -57,7 +57,7 @@
             <div class="questionContainer">
                 <div class="questionContainer__inner">
                     <div class="questionContainer__inner__top">
-                        <a href="<?php echo(base_url());?>index.php/Question"><%= item?.questionTitle %></a>
+                        <a href="<?php echo(base_url());?>index.php/Question?questionID=<%= item?.questionID %>"><%= item?.questionTitle %></a>
                         <h2>Description: <%= item?.questionDescription %></h2>
                         
                     </div>
@@ -102,7 +102,7 @@
         },
         render: function() {
             var data = this.model.toJSON();
-            this.$el.html(this.template({data: data.result}));
+            this.$el.html(this.template({data: data?.result}));
         }
         });
 
