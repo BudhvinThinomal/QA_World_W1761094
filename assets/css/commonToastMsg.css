@@ -1,0 +1,12 @@
+.toast {
+    background-color: #e60000; /* sets the background color */
+    color: #fff; /* sets the text color */
+    padding: 10px 20px 10px 20px; /* sets the padding */
+    position: fixed; /* positions the toast on the screen */
+    bottom: 20px; /* sets the bottom position */
+    right: 20px; /* sets the right position */
+    z-index: 1; /* sets the z-index to make sure it stays on top */
+    border-radius: 5px; /* sets the border radius */
+    font-size: 20px;
+    font-weight: 600;
+  }

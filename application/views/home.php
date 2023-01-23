@@ -128,7 +128,7 @@
                     if (response == true) {
                         window.location.href = "<?php echo (base_url()); ?>index.php/CreateQuestion"
                     } else {
-                        alert("User need to log in to Post a Question!!")
+                        showToast("User need to log in to Post a Question!!")
                     } 
                 },
                 error: function(xhr, status, error) {
@@ -141,6 +141,14 @@
 
         var logoutView = new isLoggedIn();
     </script>
+
+    <?php
+        include 'commonNavBarOpt.php';
+    ?>
+
+    <?php
+        include 'commonToastMsg.php';
+    ?>
 
 </body>
 </html>

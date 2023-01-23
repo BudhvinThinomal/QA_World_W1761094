@@ -70,7 +70,7 @@
                         if (response == true) {
                             window.location.href = "<?php echo (base_url()); ?>index.php/Home"
                         } else {
-                            alert("You have entered an invalid Username or Password!!")
+                            showToast("You have entered an invalid Username or Password!!")
                         }
                     },
                     error: function(xhr, status, error) {
@@ -79,7 +79,7 @@
                     }
                     });
                 } else {
-                    alert(this.model.validationError);
+                    showToast(this.model.validationError);
                 }
             }
         });
@@ -146,6 +146,9 @@
         </div>
     </form> 
 
-</body>
+    <?php
+        include 'commonToastMsg.php';
+    ?>
 
+</body>
 </html>

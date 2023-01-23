@@ -69,7 +69,7 @@
                         if (response["isValid"] == true) {
                             window.location.href = "<?php echo (base_url()); ?>index.php/Home"
                         } else {
-                            alert(response["message"])
+                            showToast(response["message"])
                         }
                     },
                     error: function(xhr, status, error) {
@@ -78,7 +78,7 @@
                     }
                     });
                 } else {
-                    alert(this.model.validationError);
+                    showToast(this.model.validationError);
                 }
             }
         });
@@ -129,6 +129,10 @@
 
         </div>
     </form> 
+
+    <?php
+        include 'commonToastMsg.php';
+    ?>
 
 </body>
 </html>
