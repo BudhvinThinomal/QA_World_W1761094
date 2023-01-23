@@ -1,13 +1,17 @@
 /* Home page styles */
 
+body {
+    margin:0;
+}
+
 .container {
-    position:absolute;
+    /* position:absolute; */
     top:0px;
     right:0px;
     bottom:0px;
     left:0px;
     background-color: #30C6D0;
-    background-image: linear-gradient(to bottom, whitesmoke,#30C6D0);
+    background-image: linear-gradient(to bottom, whitesmoke,#30C6D0);  
 }
 
 .container__main {
