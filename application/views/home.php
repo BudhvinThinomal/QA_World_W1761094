@@ -61,7 +61,7 @@
        
        <!-- question section -->
        <div class="container__section questions">
-            <div class="questionContainer">
+            <!-- <div class="questionContainer">
                 <div class="questionContainer__left">
                     <div class="questionContainer__left__top">
                         <a href="<?php echo(base_url());?>index.php/Question">How to perform form validation for a required field in HTML ?</a>
@@ -82,10 +82,25 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
         </div>
 
     </div>
+
+    <!-- question section -->
+    <script>
+        $(document).ready(function () {
+                $.ajax({
+                    url: "<?php echo (base_url()); ?>index.php/api/Question/allQuestions",
+                    method: "GET",
+                    dataType: "json"
+                }).done(function (response) {
+                    $.each(response.result, function(key, value) {
+                            $('.questions').append('<div class="questionContainer"><div class="questionContainer__left"><div class="questionContainer__left__top"><a href="<?php echo(base_url());?>index.php/Question"><p>'+value.questionTitle+'</p></a></div><div class="questionContainer__left__bottom"><div class="left"></div><div class="right"><div class="likes"><img src="<?php echo(base_url());?>assets/images/like.svg" alt="like"/><p>12</p></div><div class="dislikes"><img src="<?php echo(base_url());?>assets/images/dislike.svg" alt="dislike"/><p>01</p></div></div></div></div></div>'); 
+                        });
+                    })
+                })
+   </script>
 
     <div id="side-nav-popup">
         <a href="<?php echo(base_url());?>index.php/Login">Log In</a> <br>
