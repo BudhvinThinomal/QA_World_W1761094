@@ -49,7 +49,6 @@
        
        <!-- question section -->
        <div class="container__section questions" id="question-element"></div>
-
     </div>
 
     
