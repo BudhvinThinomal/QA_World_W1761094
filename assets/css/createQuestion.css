@@ -8,6 +8,8 @@
     left:0px;
     background-color: #30C6D0;
     background-image: linear-gradient(to bottom, whitesmoke,#30C6D0);
+    overflow-y: auto; /* adds scrollbar to the container element */
+    overflow-x: hidden; /* disables horizontal scrolling */
 }
 
 .container__main {

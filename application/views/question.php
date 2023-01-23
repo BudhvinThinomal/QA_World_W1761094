@@ -17,21 +17,10 @@
 
 <body>
     <div class="container">
-        <div class="container__section navigation">
-            <div class="navigation_logo">
-                <a href="<?php echo(base_url());?>index.php/Home">
-                    <img src="<?php echo(base_url());?>assets/images/QAWorldNav.png" alt="QAWorldLogo"/>
-                </a>
-            </div>
-
-            <div class="navigation__title">
-                    <h2>Question!!</h2>
-            </div>
-            
-            <div class="navigation__btn">
-                <a href="<?php echo(base_url());?>index.php/Home">Home</a>
-            </div>
-        </div>
+        
+        <?php
+            include 'commonNavBar.php';
+        ?>
         
         <div class="container__section questionNanswers">
             <div class="questionContainer">

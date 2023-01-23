@@ -6,9 +6,10 @@
     right:0px;
     bottom:0px;
     left:0px;
-    display: flex;
-    flex-direction: row;
-    background-color: whitesmoke;
+    background-color: #30C6D0;
+    background-image: linear-gradient(to bottom, whitesmoke,#30C6D0);
+    overflow-y: auto; /* adds scrollbar to the container element */
+    overflow-x: hidden; /* disables horizontal scrolling */
 }
 
 .container__main {
