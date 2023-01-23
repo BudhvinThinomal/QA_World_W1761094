@@ -20,7 +20,6 @@
 </head>
 
 <body>
-<button id="get-data-button">Get Data</button>
     <div class="container">
         <div class="container__section navigation">
             <div class="navigation_logo">
@@ -56,7 +55,7 @@
                 <p>2</p>
             </div>
             <div class="postQuestion">
-                <a href="<?php echo(base_url());?>index.php/CreateQuestion">Post a Question</a>
+                <button id="post-question-btn">Post a Question</button>
             </div>
         </div>
        
@@ -69,11 +68,8 @@
                     </div>
                     <div class="questionContainer__left__bottom">
                        
-                            <div class="left">
-                                <div class="tag">
-                                    <p>#Code</p>
-                                </div>
-                            </div>
+                            <div class="left"></div>
+
                             <div class="right">
                             <div class="likes">
                                 <img src="<?php echo(base_url());?>assets/images/like.svg" alt="like"/>
@@ -236,6 +232,39 @@
         });
 
         var logoutView = new LogoutView();
+    </script>
+
+    <script>
+        // Get the logout button
+        var postQuesBtn = document.getElementById("post-question-btn");
+
+        var isLoggedIn = Backbone.View.extend({
+        el: "#post-question-btn",
+        events: {
+            "click": "getData"
+        },
+        getData: function(e) {
+            e.preventDefault();
+            $.ajax({
+                url: "<?php echo (base_url()); ?>index.php/api/User/isLoggedIn",
+                type: "GET",
+                success: function(response) {
+                    
+                    if (response == true) {
+                        window.location.href = "<?php echo (base_url()); ?>index.php/CreateQuestion"
+                    } else {
+                        alert("User need to log in to Post a Question!!")
+                    } 
+                },
+                error: function(xhr, status, error) {
+                    console.log(error);
+                    // Handle any errors that occur during the request
+                }
+            });
+        }
+        });
+
+        var logoutView = new isLoggedIn();
     </script>
 
 </body>

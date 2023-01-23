@@ -24,15 +24,15 @@ class Question_model extends CI_Model
         $isValid = !empty($resultArray);
 
         if ($isValid) {
-            $response["message"] = "Questions Exist";
+            $response["message"] = "Questions Exist!!";
             $response["isValid"] = $isValid;
-            $response["result"] = $resultArray;
+            $response["result"] = json_decode(json_encode($resultArray), true);
 
             return $response;
         } else {
-            $response["message"] = "Questions does not Exist";
+            $response["message"] = "Questions does not Exist!!";
             $response["isValid"] = $isValid;
-            $response["result"] = $resultArray;
+            $response["result"] = json_decode(json_encode($resultArray), true);
 
             return $response;
         }
@@ -53,22 +53,22 @@ class Question_model extends CI_Model
         $isValid = !empty($resultArray);
 
         if ($isValid) {
-            $response["message"] = "Question Exist";
+            $response["message"] = "Question Exist!!";
             $response["isValid"] = $isValid;
-            $response["result"] = $resultArray;
+            $response["result"] = json_decode(json_encode($resultArray), true);
 
             return $response;
         } else {
-            $response["message"] = "Question does not Exist";
+            $response["message"] = "Question does not Exist!!";
             $response["isValid"] = $isValid;
-            $response["result"] = $resultArray;
+            $response["result"] = json_decode(json_encode($resultArray), true);
 
             return $response;
         }
     }
 
     //Function for create new question
-    function create_question($questionTitle, $questionDescription, $tags, $username, $isLoggedIn)
+    function create_question($questionTitle, $questionDescription, $username)
     {
         $timeSatmp = date("Y-m-d h:i:s");
 
@@ -82,18 +82,16 @@ class Question_model extends CI_Model
             'lastModified' => $lastModified,
             'likes' => 0,
             'dislikes' => 0,
-            'username' => $username,
-            'views' => 0,
-            'tags' => $tags
+            'username' => $username
         ));
 
         if ($result) {
-            $response["message"] = "Question Created Successfully!";
+            $response["message"] = "Question Created Successfully!!";
             $response["isValid"] = $result;
 
             return $response;
         } else {
-            $response["message"] = "Question Creation Unsuccessful!";
+            $response["message"] = "Question Creation Unsuccessful!!";
             $response["isValid"] = $result;
 
             return $response;
@@ -101,14 +99,13 @@ class Question_model extends CI_Model
     }
 
     //Function for update existing question
-    function update_question($questionID, $questionTitle, $questionDescription, $tags, $username, $isLoggedIn)
+    function update_question($questionID, $questionTitle, $questionDescription)
     {
         $timeSatmp = date("Y-m-d h:i:s");
 
         $updatedData = array(
             'questionTitle' => $questionTitle,
             'questionDescription' => $questionDescription,
-            'tags' => $tags,
             'lastModified' => $timeSatmp
         );
 
@@ -116,12 +113,12 @@ class Question_model extends CI_Model
         $result = $this->db->update('question_details', $updatedData);
 
         if ($result) {
-            $response["message"] = "Question Updated Successfully!";
+            $response["message"] = "Question Updated Successfully!!";
             $response["isValid"] = $result;
 
             return $response;
         } else {
-            $response["message"] = "Question Updating Process Unsuccessful!";
+            $response["message"] = "Question Updating Process Unsuccessful!!";
             $response["isValid"] = $result;
 
             return $response;
@@ -129,7 +126,7 @@ class Question_model extends CI_Model
     }
 
     //Function for remove existing question
-    function remove_question($questionID, $username, $isLoggedIn)
+    function remove_question($questionID)
     {
         $result = $this->db->delete('question_details', array('questionID' => $questionID));
 
@@ -199,13 +196,13 @@ class Question_model extends CI_Model
                     $result = $this->db->query($sql , $updateData);
 
                     if ($result) {
-                        $response['message'] = "Votes Updated Successfully.";
+                        $response['message'] = "Votes Updated Successfully!!";
                         $response['isUpdated'] = true;
                         return $response;
                     } else {
                         $error = $this->db->error();
 
-                        $response['message'] = "Something went wrong.";
+                        $response['message'] = "Something went wrong!!";
                         $response['isUpdated'] = false;
                         $response['data'] = $error;
                         return $response;
@@ -223,13 +220,13 @@ class Question_model extends CI_Model
                     $result = $this->db->query($sql, $updateData);
 
                     if ($result) {
-                        $response['message'] = "Votes Updated Successfully.";
+                        $response['message'] = "Votes Updated Successfully!!";
                         $response['isUpdated'] = true;
                         return $response;
                     } else {
                         $error = $this->db->error();
 
-                        $response['message'] = "Something went wrong.";
+                        $response['message'] = "Something went wrong!!";
                         $response['isUpdated'] = false;
                         $response['data'] = $error;
                         return $response;
@@ -245,13 +242,13 @@ class Question_model extends CI_Model
                     ));
 
                     if ($result) {
-                        $response['message'] = "Votes Created successfully.";
+                        $response['message'] = "Votes Created successfully!!";
                         $response['isUpdated'] = true;
                         return $response;
                     } else {
                         $error = $this->db->error();
 
-                        $response['message'] = "Something went wrong.";
+                        $response['message'] = "Something went wrong!!";
                         $response['isUpdated'] = false;
                         $response['data'] = $error;
                         return $response;
@@ -265,13 +262,13 @@ class Question_model extends CI_Model
                     ));
 
                     if ($result) {
-                        $response['message'] = "Votes Created successfully.";
+                        $response['message'] = "Votes Created successfully!!";
                         $response['isUpdated'] = true;
                         return $response;
                     } else {
                         $error = $this->db->error();
 
-                        $response['message'] = "Something went wrong.";
+                        $response['message'] = "Something went wrong!!";
                         $response['isUpdated'] = false;
                         $response['data'] = $error;
                         return $response;
@@ -279,7 +276,7 @@ class Question_model extends CI_Model
                 }
             }
         } else {
-            $response['message'] = "User not valid or question does not exist.";
+            $response['message'] = "User not valid or question does not exist!!";
             $response['isUpdated'] = false;
             return $response;
         }

@@ -17,30 +17,41 @@ class Question extends \Restserver\Libraries\REST_Controller {
         $response = $this->question_model->all_questions();
 
         $this->set_response($response, \Restserver\Libraries\REST_Controller::HTTP_OK);
-        
     }
 
     //Function for return one perticular question from database
     function question_get() {
         $questionID = $this->input->get('questionID');
 
-        $response = $this->question_model->question($questionID);
-        
-        $this->set_response($response, \Restserver\Libraries\REST_Controller::HTTP_OK);
-        
+        if ($questionID) {
+            $response = $this->question_model->question($questionID);
+            
+            $this->set_response($response, \Restserver\Libraries\REST_Controller::HTTP_OK);
+        } else{
+            $response["message"] = "Question does not Exist!!";
+            $response["isValid"] = false;
+            $response["result"] = [];
+
+            $this->set_response($response, \Restserver\Libraries\REST_Controller::HTTP_BAD_REQUEST);
+        }
     }
     
     //Function for create new question
     function createQuestion_post() {
         $questionTitle = $this->input->post('questionTitle');
         $questionDescription = $this->input->post('questionDescription');
-        $tags = $this->input->post('tags');
-        $username = $this->input->post('username');
-        $isLoggedIn = $this->input->post('isLoggedIn');
+        $username = $this->user_model->get_username();
         
-        $response = $this->question_model->create_question($questionTitle, $questionDescription, $tags, $username, $isLoggedIn);
+        if ($questionTitle and $questionDescription and $username) {
+            $response = $this->question_model->create_question($questionTitle, $questionDescription, $username);
 
-        $this->set_response($response, \Restserver\Libraries\REST_Controller::HTTP_CREATED);
+            $this->set_response($response, \Restserver\Libraries\REST_Controller::HTTP_CREATED);
+        } else {
+            $response["message"] = "Question Creation Unsuccessful!!";
+            $response["isValid"] = false;
+
+            $this->set_response($response, \Restserver\Libraries\REST_Controller::HTTP_BAD_REQUEST);
+        }
     } 
 
     //Function for update existing question
@@ -48,24 +59,33 @@ class Question extends \Restserver\Libraries\REST_Controller {
         $questionID = $this->input->post('questionID');
         $questionTitle = $this->input->post('questionTitle');
         $questionDescription = $this->input->post('questionDescription');
-        $tags = $this->input->post('tags');
-        $username = $this->input->post('username');
-        $isLoggedIn = $this->input->post('isLoggedIn');
 
-        $response = $this->question_model->update_question($questionID, $questionTitle, $questionDescription, $tags, $username, $isLoggedIn);
+        if ($questionID and $questionTitle and $questionDescription) {
 
-        $this->set_response($response, \Restserver\Libraries\REST_Controller::HTTP_CREATED);
+            $response = $this->question_model->update_question($questionID, $questionTitle, $questionDescription);
+
+            $this->set_response($response, \Restserver\Libraries\REST_Controller::HTTP_CREATED);
+        } else {
+            $response["message"] = "Question Updating Process Unsuccessful!!";
+            $response["isValid"] = false;
+
+            $this->set_response($response, \Restserver\Libraries\REST_Controller::HTTP_BAD_REQUEST);
+        }
     }
 
     //Function for remove question
     function removeQuestion_post() {
         $questionID = $this->input->post('questionID');
-        $username = $this->input->post('username');
-        $isLoggedIn = $this->input->post('isLoggedIn');
         
-        $response = $this->question_model->remove_question($questionID, $username, $isLoggedIn);
+        if ($questionID) {
+            $response = $this->question_model->remove_question($questionID);
 
-        $this->set_response($response, \Restserver\Libraries\REST_Controller::HTTP_CREATED);
+            $this->set_response($response, \Restserver\Libraries\REST_Controller::HTTP_CREATED);
+        } else {
+            $response = false;
+
+            $this->set_response($response, \Restserver\Libraries\REST_Controller::HTTP_BAD_REQUEST);
+        }
     }
 
     //Function for filter existing question    
