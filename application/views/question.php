@@ -43,7 +43,7 @@
                 this.render();
             },
             render: function() {
-                var template = _.template($("#post-answer-template").html());
+                var template = _.template($("#post-ans-template").html());
                 this.$el.html(template(this.model.toJSON()));
             },
             submitForm: function(e) {
