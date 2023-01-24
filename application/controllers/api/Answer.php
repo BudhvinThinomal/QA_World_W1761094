@@ -25,7 +25,7 @@ class Answer extends \Restserver\Libraries\REST_Controller {
             $response["isValid"] = false;
             $response["result"] = [];
 
-            $this->set_response($response, \Restserver\Libraries\REST_Controller::HTTP_BAD_REQUEST);
+            $this->set_response($response, \Restserver\Libraries\REST_Controller::HTTP_OK);
         }
     }
 
@@ -44,7 +44,7 @@ class Answer extends \Restserver\Libraries\REST_Controller {
             $response["message"] = "Answer Creation Unsuccessful!!";
             $response["isValid"] = false;
 
-            $this->set_response($response, \Restserver\Libraries\REST_Controller::HTTP_BAD_REQUEST);
+            $this->set_response($response, \Restserver\Libraries\REST_Controller::HTTP_OK);
         }
     }
 
@@ -62,7 +62,7 @@ class Answer extends \Restserver\Libraries\REST_Controller {
             $response["message"] = "Answer Updating Process Unsuccessful!!";
             $response["isValid"] = false;
 
-            $this->set_response($response, \Restserver\Libraries\REST_Controller::HTTP_BAD_REQUEST);
+            $this->set_response($response, \Restserver\Libraries\REST_Controller::HTTP_OK);
         }
     }
 
@@ -85,7 +85,7 @@ class Answer extends \Restserver\Libraries\REST_Controller {
         } else {
             $response['message'] = "Error processing input";
             $response['isUpdated'] = false;
-            $this->set_response($response, \Restserver\Libraries\REST_Controller::HTTP_BAD_REQUEST);
+            $this->set_response($response, \Restserver\Libraries\REST_Controller::HTTP_OK);
         }
     }
 
@@ -100,7 +100,7 @@ class Answer extends \Restserver\Libraries\REST_Controller {
         } else {
             $response = false;
 
-            $this->set_response($response, \Restserver\Libraries\REST_Controller::HTTP_BAD_REQUEST);
+            $this->set_response($response, \Restserver\Libraries\REST_Controller::HTTP_OK);
         }
     }
 }

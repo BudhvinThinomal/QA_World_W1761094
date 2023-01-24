@@ -34,10 +34,8 @@
 
 </script>
 
+<!-- Check user log or not -->
 <script>
-    // Get the logout button
-    var logoutBtn = document.getElementById("logout-btn");
-
     var isLoggedIn = Backbone.View.extend({
     el: "#open-side-nav-btn",
     events: {
@@ -49,12 +47,13 @@
             url: "<?php echo (base_url()); ?>index.php/api/User/isLoggedIn",
             type: "GET",
             success: function(response) {
-                
-                if (response == true) {
-                    logoutBtn.style.display = "block";
-                } else {
-                    logoutBtn.style.display = "none";
-                }
+                $(document).ready(function() {
+                    if (response == true) {
+                        $('#logout-btn').show();
+                    } else {
+                        $('#logout-btn').hide();
+                    }
+                });
             },
             error: function(xhr, status, error) {
                 console.log(error);

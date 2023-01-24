@@ -109,10 +109,8 @@
         var questionView = new QuestionView();
     </script>
 
+    <!-- Login validation -->
     <script>
-        // Get the logout button
-        var postQuesBtn = document.getElementById("post-question-btn");
-
         var isLoggedIn = Backbone.View.extend({
         el: "#post-question-btn",
         events: {

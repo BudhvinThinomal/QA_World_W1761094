@@ -55,28 +55,45 @@
 
                 this.model.set({questionTitle: questionTitle, questionDescription: questionDescription});
 
-                if (this.model.isValid()) {  
-                    // Submit the form to the server
+                if (this.model.isValid()) { 
+                    // Login validation
                     $.ajax({
-                    url: "<?php echo (base_url()); ?>index.php/api/Question/createQuestion",
-                    type: "POST",
-                    data: {
-                        questionTitle: questionTitle, 
-                        questionDescription: questionDescription
-                    },
-                    success: function(response) {
-                        // Handle the response from the server
-                        if (response["isValid"] == true) {
-                            window.location.href = "<?php echo (base_url()); ?>index.php/Home"
-                        } else {
-                            showToast(response["message"])
+                        url: "<?php echo (base_url()); ?>index.php/api/User/isLoggedIn",
+                        type: "GET",
+                        success: function(response) {
+                            
+                            if (response == true) {
+                               // Submit the form to the server
+                                $.ajax({
+                                url: "<?php echo (base_url()); ?>index.php/api/Question/createQuestion",
+                                type: "POST",
+                                data: {
+                                    questionTitle: questionTitle, 
+                                    questionDescription: questionDescription
+                                },
+                                success: function(response) {
+                                    // Handle the response from the server
+                                    if (response["isValid"] == true) {
+                                        window.location.href = "<?php echo (base_url()); ?>index.php/Home"
+                                    } else {
+                                        showToast(response["message"])
+                                    }
+                                },
+                                error: function(xhr, status, error) {
+                                    // Handle any errors that occur during the request
+                                    console.log(error);
+                                }
+                                });
+                            } else {
+                                showToast("User need to log in to Post a Question!!")
+                            } 
+                        },
+                        error: function(xhr, status, error) {
+                            console.log(error);
+                            // Handle any errors that occur during the request
                         }
-                    },
-                    error: function(xhr, status, error) {
-                        // Handle any errors that occur during the request
-                        console.log(error);
-                    }
-                    });
+                    });  
+
                 } else {
                     showToast(this.model.validationError);
                 }
@@ -93,21 +110,10 @@
     <form id="post-ques-form">
         <div id="post-ques-template">
             <div class="container">
-                <div class="container__section navigation">
-                    <div class="navigation_logo">
-                        <a href="<?php echo(base_url());?>index.php/Home">
-                            <img src="<?php echo(base_url());?>assets/images/QAWorldNav.png" alt="QAWorldLogo"/>
-                        </a>
-                    </div>
-
-                    <div class="navigation__title">
-                        <h2>Create Question!!</h2>
-                    </div>
-                    
-                    <div class="navigation__btn">
-                        <a href="<?php echo(base_url());?>index.php/Home">Home</a>
-                    </div>
-                </div>
+                        
+                <?php
+                    include 'commonNavBar.php';
+                ?>
                 
                 <div class="container__section createQuesSection">
                     
@@ -129,6 +135,10 @@
 
         </div>
     </form> 
+
+    <?php
+        include 'commonNavBarOpt.php';
+    ?>
 
     <?php
         include 'commonToastMsg.php';

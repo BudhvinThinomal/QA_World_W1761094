@@ -28,7 +28,7 @@
         },
         validate: function(attributes) {
             if (!attributes.answerDescription) {
-            return "Answer is required!!";
+                return "Answer is required!!";
             }
         }
         });
@@ -55,27 +55,44 @@
                 this.model.set({answerDescription: answerDescription, questionID: questionID});
 
                 if (this.model.isValid()) {  
-                    // Submit the form to the server
+                    // Login validation
                     $.ajax({
-                    url: "<?php echo (base_url()); ?>index.php/api/Answer/createAnswers",
-                    type: "POST",
-                    data: {
-                        answerDescription: answerDescription,
-                        questionID: questionID
-                    },
-                    success: function(response) {
-                        // Handle the response from the server
-                        if (response["isValid"] == true) {
-                            window.location.href = "<?php echo (base_url()); ?>index.php/Question?questionID="+$searchParams.get('questionID');
-                        } else {
-                            showToast(response["message"])
+                        url: "<?php echo (base_url()); ?>index.php/api/User/isLoggedIn",
+                        type: "GET",
+                        success: function(response) {
+                            
+                            if (response == true) {
+                                // Submit the form to the server
+                                $.ajax({
+                                url: "<?php echo (base_url()); ?>index.php/api/Answer/createAnswers",
+                                type: "POST",
+                                data: {
+                                    answerDescription: answerDescription,
+                                    questionID: questionID
+                                },
+                                success: function(response) {
+                                    // Handle the response from the server
+                                    if (response["isValid"] == true) {
+                                        window.location.href = "<?php echo (base_url()); ?>index.php/Question?questionID="+$searchParams.get('questionID');
+                                    } else {
+                                        showToast(response["message"])
+                                    }
+                                },
+                                error: function(xhr, status, error) {
+                                    // Handle any errors that occur during the request
+                                    console.log(error);
+                                }
+                                });
+                            } else {
+                                showToast("User need to log in to Post a Answer!!")
+                            } 
+                        },
+                        error: function(xhr, status, error) {
+                            console.log(error);
+                            // Handle any errors that occur during the request
                         }
-                    },
-                    error: function(xhr, status, error) {
-                        // Handle any errors that occur during the request
-                        console.log(error);
-                    }
                     });
+                    
                 } else {
                     showToast(this.model.validationError);
                 }

@@ -32,7 +32,7 @@ class User extends \Restserver\Libraries\REST_Controller
             $response["isValid"] = $isValid;
             $response["result"] = $resultArray;
 
-            $this->set_response($response, \Restserver\Libraries\REST_Controller::HTTP_BAD_REQUEST);
+            $this->set_response($response, \Restserver\Libraries\REST_Controller::HTTP_OK);
         }
     }
 
@@ -58,7 +58,7 @@ class User extends \Restserver\Libraries\REST_Controller
         } else{
             $response = false;
 
-            $this->set_response($response, \Restserver\Libraries\REST_Controller::HTTP_BAD_REQUEST);
+            $this->set_response($response, \Restserver\Libraries\REST_Controller::HTTP_OK);
         }
     }
 
@@ -91,7 +91,7 @@ class User extends \Restserver\Libraries\REST_Controller
             $response["message"] = "User Creation Unsuccessful!!";
             $response["isValid"] = false;
 
-            $this->set_response($response, \Restserver\Libraries\REST_Controller::HTTP_BAD_REQUEST);
+            $this->set_response($response, \Restserver\Libraries\REST_Controller::HTTP_OK);
         }
     }
 }
