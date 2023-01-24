@@ -36,34 +36,24 @@
 
 <!-- Check user log or not -->
 <script>
-    var isLoggedIn = Backbone.View.extend({
-    el: "#open-side-nav-btn",
-    events: {
-        "click": "getData"
-    },
-    getData: function(e) {
-        e.preventDefault();
+    $(document).ready(function() {
         $.ajax({
             url: "<?php echo (base_url()); ?>index.php/api/User/isLoggedIn",
             type: "GET",
             success: function(response) {
-                $(document).ready(function() {
-                    if (response == true) {
-                        $('#logout-btn').show();
-                    } else {
-                        $('#logout-btn').hide();
-                    }
-                });
+            
+                if (response == true) {
+                    $('#logout-btn').show();
+                } else {
+                    $('#logout-btn').hide();
+                }
             },
             error: function(xhr, status, error) {
                 console.log(error);
                 // Handle any errors that occur during the request
             }
         });
-    }
     });
-
-    var logoutView = new isLoggedIn();
 </script>
 
 <div id="logout-popup">

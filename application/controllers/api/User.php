@@ -45,6 +45,15 @@ class User extends \Restserver\Libraries\REST_Controller
         
     }
 
+    //Function for return username
+    function getUserName_get()
+    {
+        $response = $this->user_model->get_username();
+
+        $this->set_response($response, \Restserver\Libraries\REST_Controller::HTTP_OK);
+        
+    }
+
     //Function for check and authenticates user by username and password to login
     function login_post()
     {

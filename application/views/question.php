@@ -19,6 +19,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.3.3/backbone-min.js"></script>
 
     <script>
+        var global = {getUserName: ""};
         $searchParams = new URLSearchParams(window.location.search);
         
         var PostModel = Backbone.Model.extend({
@@ -70,12 +71,12 @@
                                     answerDescription: answerDescription,
                                     questionID: questionID
                                 },
-                                success: function(response) {
+                                success: function(res) {
                                     // Handle the response from the server
-                                    if (response["isValid"] == true) {
+                                    if (res["isValid"] == true) {
                                         window.location.href = "<?php echo (base_url()); ?>index.php/Question?questionID="+$searchParams.get('questionID');
                                     } else {
-                                        showToast(response["message"])
+                                        showToast(res["message"])
                                     }
                                 },
                                 error: function(xhr, status, error) {
@@ -84,7 +85,7 @@
                                 }
                                 });
                             } else {
-                                showToast("User need to log in to Post a Answer!!")
+                                showToast("User need to Log In to Post a Answer!!")
                             } 
                         },
                         error: function(xhr, status, error) {
@@ -150,11 +151,80 @@
         </form> 
     </div>
 
+    <!-- Check user log in and username for enabled disabled Edit and Delete-->
+    <script>
+        $(document).ready(function() {
+            $.ajax({
+                url: "<?php echo (base_url()); ?>index.php/api/User/isLoggedIn",
+                type: "GET",
+                success: function(response) {
+                
+                    if (response == true) {
+                        $.ajax({
+                            url: "<?php echo (base_url()); ?>index.php/api/User/getUserName",
+                            type: "GET",
+                            success: function(res) {
+                                global.getUserName = res;
+
+                                //Backbone model for display a question
+                                var QuestionModel = Backbone.Model.extend({
+                                    url: "<?php echo (base_url()); ?>index.php/api/Question/question?questionID="+$searchParams.get('questionID'),
+                                    parse: function(response) {
+                                        return response;
+                                    }
+                                });
+
+                                var QuestionView = Backbone.View.extend({
+                                el: '#question-element',
+                                template: _.template($('#question-template').html()),
+                                initialize: function() {
+                                    this.model = new QuestionModel();
+                                    this.model.fetch();
+                                    this.listenTo(this.model, 'sync', this.render);
+                                },
+                                render: function() {
+                                    var data = this.model.toJSON();
+                                    this.$el.html(this.template({data: data?.result}));
+                                }
+                                });
+
+                                var questionView = new QuestionView();
+                            },
+                            error: function(xhr, status, error) {
+                                console.log(error);
+                                // Handle any errors that occur during the request
+                            }
+                        });
+                    } else {
+                        $('.container__inner__bottom').hide();
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.log(error);
+                    // Handle any errors that occur during the request
+                }
+            });
+        });
+    </script>
+
+    <!-- Display question template -->
     <script type="text/template" id="question-template">
         <% _.each(data, function(item) { %>
             <h2><%= item?.questionTitle %></h2>
             <h3>Description: <%= item?.questionDescription %></h3>  
             <p>Created by: <%= item?.username %></p>   
+
+            <div class="container__inner__bottom" <% if (item?.username !== global.getUserName) { %> style="display: none" <% } %>>  
+                <div class="left"></div>
+                <div class="right">
+                    <button>
+                        Edit
+                    </button>
+                    <button>
+                        Delete
+                    </button>
+                </div>
+            </div>
         <% }); %>
     </script>
 
@@ -184,6 +254,7 @@
         var questionView = new QuestionView();
     </script>
 
+    <!-- Display answers template -->
     <script type="text/template" id="answer-template">
         <% _.each(data, function(item) { %>
             <div class="answerContainer_inner" >

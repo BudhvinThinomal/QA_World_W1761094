@@ -126,7 +126,7 @@
                     if (response == true) {
                         window.location.href = "<?php echo (base_url()); ?>index.php/CreateQuestion"
                     } else {
-                        showToast("User need to log in to Post a Question!!")
+                        showToast("User need to Log In to Post a Question!!")
                     } 
                 },
                 error: function(xhr, status, error) {

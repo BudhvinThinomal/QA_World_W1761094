@@ -71,12 +71,12 @@
                                     questionTitle: questionTitle, 
                                     questionDescription: questionDescription
                                 },
-                                success: function(response) {
+                                success: function(res) {
                                     // Handle the response from the server
-                                    if (response["isValid"] == true) {
+                                    if (res["isValid"] == true) {
                                         window.location.href = "<?php echo (base_url()); ?>index.php/Home"
                                     } else {
-                                        showToast(response["message"])
+                                        showToast(res["message"])
                                     }
                                 },
                                 error: function(xhr, status, error) {
@@ -85,7 +85,7 @@
                                 }
                                 });
                             } else {
-                                showToast("User need to log in to Post a Question!!")
+                                showToast("User need to Log In to Post a Question!!")
                             } 
                         },
                         error: function(xhr, status, error) {
