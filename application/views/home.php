@@ -117,29 +117,29 @@
     <!-- Login validation -->
     <script>
         var isLoggedIn = Backbone.View.extend({
-        el: "#post-question-btn",
-        events: {
-            "click": "getData"
-        },
-        getData: function(e) {
-            e.preventDefault();
-            $.ajax({
-                url: "<?php echo (base_url()); ?>index.php/api/User/isLoggedIn",
-                type: "GET",
-                success: function(response) {
-                    
-                    if (response == true) {
-                        window.location.href = "<?php echo (base_url()); ?>index.php/CreateQuestion"
-                    } else {
-                        showToast("User need to Log In to Post a Question!!")
-                    } 
-                },
-                error: function(xhr, status, error) {
-                    console.log(error);
-                    // Handle any errors that occur during the request
-                }
-            });
-        }
+            el: "#post-question-btn",
+            events: {
+                "click": "getData"
+            },
+            getData: function(e) {
+                e.preventDefault();
+                $.ajax({
+                    url: "<?php echo (base_url()); ?>index.php/api/User/isLoggedIn",
+                    type: "GET",
+                    success: function(response) {
+                        
+                        if (response == true) {
+                            window.location.href = "<?php echo (base_url()); ?>index.php/CreateQuestion";
+                        } else {
+                            showToast("User need to Log In to Post a Question!!");
+                        } 
+                    },
+                    error: function(xhr, status, error) {
+                        console.log(error);
+                        // Handle any errors that occur during the request
+                    }
+                });
+            }
         });
 
         var logoutView = new isLoggedIn();

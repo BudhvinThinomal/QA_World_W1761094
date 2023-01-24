@@ -68,9 +68,9 @@
                     success: function(response) {
                         // Handle the response from the server
                         if (response == true) {
-                            window.location.href = "<?php echo (base_url()); ?>index.php/Home"
+                            window.location.href = "<?php echo (base_url()); ?>index.php/Home";
                         } else {
-                            showToast("You have entered an invalid Username or Password!!")
+                            showToast("You have entered an invalid Username or Password!!");
                         }
                     },
                     error: function(xhr, status, error) {

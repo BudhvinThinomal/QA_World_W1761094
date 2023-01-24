@@ -87,9 +87,9 @@
                     success: function(response) {
                         // Handle the response from the server
                         if (response['isValid'] == true) {
-                            window.location.href = "<?php echo (base_url()); ?>index.php/Home"
+                            window.location.href = "<?php echo (base_url()); ?>index.php/Home";
                         } else {
-                            showToast(response['message'])
+                            showToast(response['message']);
                         }
                     },
                     error: function(xhr, status, error) {

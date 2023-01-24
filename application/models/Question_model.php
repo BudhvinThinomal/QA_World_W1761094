@@ -127,9 +127,15 @@ class Question_model extends CI_Model
     //Function for remove existing question
     function remove_question($questionID)
     {
-        $result = $this->db->delete('question_details', array('questionID' => $questionID));
+        $deleteAnswers = $this->db->delete('answer_details', array('questionID' => $questionID));
 
-        return $result;       
+        if ($deleteAnswers) {
+            $deleteQuestion = $this->db->delete('question_details', array('questionID' => $questionID));
+        } else {
+            $deleteQuestion = false;
+        }
+
+        return $deleteQuestion;       
     }
 
     //Function for return all the questions in releavant time period from database 

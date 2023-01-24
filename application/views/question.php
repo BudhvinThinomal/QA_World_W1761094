@@ -22,6 +22,7 @@
         var global = {getUserName: ""};
         $searchParams = new URLSearchParams(window.location.search);
         
+        //Post answer model and view
         var PostModel = Backbone.Model.extend({
         defaults: {
             answerDescription: "",
@@ -76,7 +77,7 @@
                                     if (res["isValid"] == true) {
                                         window.location.href = "<?php echo (base_url()); ?>index.php/Question?questionID="+$searchParams.get('questionID');
                                     } else {
-                                        showToast(res["message"])
+                                        showToast(res["message"]);
                                     }
                                 },
                                 error: function(xhr, status, error) {
@@ -85,7 +86,7 @@
                                 }
                                 });
                             } else {
-                                showToast("User need to Log In to Post a Answer!!")
+                                showToast("User need to Log In to Post a Answer!!");
                             } 
                         },
                         error: function(xhr, status, error) {
@@ -196,7 +197,7 @@
                     <button>
                         Edit
                     </button>
-                    <button>
+                    <button id="<%= item?.questionID %>" onClick="deleteQuestion(<%= item?.questionID %>)">
                         Delete
                     </button>
                 </div>
@@ -276,6 +277,30 @@
         });
 
         var answerView = new AnswerView();
+    </script>
+
+    <!-- Delete Method for delete question -->
+    <script>
+        function deleteQuestion(questionID) {
+            $.ajax({
+                url: "<?php echo (base_url()); ?>index.php/api/Question/removeQuestion",
+                type: 'POST',
+                data: {
+                    questionID: questionID
+                },
+                success: function(response) {
+                    if (response == true) {
+                        window.location.href = "<?php echo (base_url()); ?>index.php/Home";
+                    } else {
+                        showToast("Question Delete Process Unsuccessful!!");
+                    }   
+                },
+                error: function(xhr, status, error) {
+                    // Handle any errors that occur during the request
+                    console.log(error);
+                }
+            });
+        }
     </script>
 
     <?php

@@ -6,7 +6,6 @@ class Answer_model extends CI_Model
     {
         parent::__construct();
         $this->load->database();
-        $this->load->model('user_model');
         $this->load->model('question_model');
         date_default_timezone_set("Asia/Colombo");
     }

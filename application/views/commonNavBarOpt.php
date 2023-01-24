@@ -118,9 +118,9 @@
             success: function(response) {
                 logoutPopup.style.display = "none";
                 if (response == true) {
-                    window.location.href = "<?php echo (base_url()); ?>index.php/Login"
+                    window.location.href = "<?php echo (base_url()); ?>index.php/Login";
                 } else {
-                    showToast("Cannot logout at the moment!!")
+                    showToast("Cannot logout at the moment!!");
                 }
             },
             error: function(xhr, status, error) {
