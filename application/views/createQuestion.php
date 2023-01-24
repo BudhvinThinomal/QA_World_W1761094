@@ -19,7 +19,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.3.3/backbone-min.js"></script>
 
     <script>
-        var LoginModel = Backbone.Model.extend({
+        var PostModel = Backbone.Model.extend({
         defaults: {
             questionTitle: "",
             questionDescription: ""
@@ -34,13 +34,13 @@
         }
         });
 
-        var LoginView = Backbone.View.extend({
+        var PostView = Backbone.View.extend({
             el: "#post-ques-form",
             events: {
                 "submit": "submitForm"
             },
             initialize: function() {
-                this.model = new LoginModel();
+                this.model = new PostModel();
                 this.render();
             },
             render: function() {
@@ -84,7 +84,7 @@
         });
 
         $(document).ready(function() {
-            var loginView = new LoginView();
+            var postView = new PostView();
         });
     </script>
 </head>
@@ -120,7 +120,7 @@
 
                         <!-- Submit button section -->
                         <div class="postBtn">
-                            <input type="submit" id='loginBtn' value="Post a Question"/>
+                            <input type="submit" id='postQuesBtn' value="Post a Question"/>
                         </div>
                     </div>
                             

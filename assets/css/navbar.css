@@ -77,8 +77,6 @@
     margin-right: 10%;
 }
 
-
-
 #side-nav-popup {
     display: none; /* initially hidden */
     position: absolute; /* position in the top-right corner */

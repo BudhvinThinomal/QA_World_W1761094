@@ -20,15 +20,80 @@
 
     <script>
         $searchParams = new URLSearchParams(window.location.search);
+        
+        var PostModel = Backbone.Model.extend({
+        defaults: {
+            answerDescription: "",
+            questionID: ""
+        },
+        validate: function(attributes) {
+            if (!attributes.answerDescription) {
+            return "Answer is required!!";
+            }
+        }
+        });
+
+        var PostView = Backbone.View.extend({
+            el: "#post-ans-form",
+            events: {
+                "submit": "submitForm"
+            },
+            initialize: function() {
+                this.model = new PostModel();
+                this.render();
+            },
+            render: function() {
+                var template = _.template($("#post-answer-template").html());
+                this.$el.html(template(this.model.toJSON()));
+            },
+            submitForm: function(e) {
+                e.preventDefault();
+
+                var answerDescription = this.$("#answerDescription").val();
+                var questionID = $searchParams.get('questionID');
+
+                this.model.set({answerDescription: answerDescription, questionID: questionID});
+
+                if (this.model.isValid()) {  
+                    // Submit the form to the server
+                    $.ajax({
+                    url: "<?php echo (base_url()); ?>index.php/api/Answer/createAnswers",
+                    type: "POST",
+                    data: {
+                        answerDescription: answerDescription,
+                        questionID: questionID
+                    },
+                    success: function(response) {
+                        // Handle the response from the server
+                        if (response["isValid"] == true) {
+                            window.location.href = "<?php echo (base_url()); ?>index.php/Question?questionID="+$searchParams.get('questionID');
+                        } else {
+                            showToast(response["message"])
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        // Handle any errors that occur during the request
+                        console.log(error);
+                    }
+                    });
+                } else {
+                    showToast(this.model.validationError);
+                }
+            }
+        });
+
+        $(document).ready(function() {
+            var postView = new PostView();
+        });
     </script>
 </head>
 
 <body>
     <div class="container">
         
-        <?php
-            include 'commonNavBar.php';
-        ?>
+    <?php
+        include 'commonNavBar.php';
+    ?>
         
         <div class="container__section questionNanswers">
             <div class="questionContainer">
@@ -50,18 +115,22 @@
             <div class="answerContainer" id="answer-element"></div>  
         </div>
 
-        <div class="container__section createAnsSection">
-            <div class="createAnsSection__container section" >
+        <form id="post-ans-form">
+            <div id="post-ans-template">
+                <div class="container__section createAnsSection">
+                    <div class="createAnsSection__container section" >
 
-                <h2>Your Answer</h2>
-                <textarea rows="20" maxlength="500" style="resize:none;"></textarea>
+                        <h2>Your Answer</h2>
+                        <textarea rows="20" maxlength="500" style="resize:none;" id="answerDescription" required></textarea>
 
-                <div class="postBtn">
-                    <a href="#">Post</a>
+                        <div class="postBtn">
+                            <input type="submit" id='postAnsBtn' value="Post"/>
+                        </div>
+                    </div>
+                            
                 </div>
             </div>
-                    
-        </div>
+        </form> 
     </div>
 
     <script type="text/template" id="question-template">
@@ -134,6 +203,14 @@
 
         var answerView = new AnswerView();
     </script>
+
+    <?php
+        include 'commonNavBarOpt.php';
+    ?>
+
+    <?php
+        include 'commonToastMsg.php';
+    ?>
 
 </body>
 </html>
