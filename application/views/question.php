@@ -165,30 +165,6 @@
                             type: "GET",
                             success: function(res) {
                                 global.getUserName = res;
-
-                                //Backbone model for display a question
-                                var QuestionModel = Backbone.Model.extend({
-                                    url: "<?php echo (base_url()); ?>index.php/api/Question/question?questionID="+$searchParams.get('questionID'),
-                                    parse: function(response) {
-                                        return response;
-                                    }
-                                });
-
-                                var QuestionView = Backbone.View.extend({
-                                el: '#question-element',
-                                template: _.template($('#question-template').html()),
-                                initialize: function() {
-                                    this.model = new QuestionModel();
-                                    this.model.fetch();
-                                    this.listenTo(this.model, 'sync', this.render);
-                                },
-                                render: function() {
-                                    var data = this.model.toJSON();
-                                    this.$el.html(this.template({data: data?.result}));
-                                }
-                                });
-
-                                var questionView = new QuestionView();
                             },
                             error: function(xhr, status, error) {
                                 console.log(error);
@@ -237,18 +213,23 @@
             }
         });
 
+        var model = new QuestionModel();
+
         var QuestionView = Backbone.View.extend({
-        el: '#question-element',
-        template: _.template($('#question-template').html()),
-        initialize: function() {
-            this.model = new QuestionModel();
-            this.model.fetch();
-            this.listenTo(this.model, 'sync', this.render);
-        },
-        render: function() {
-            var data = this.model.toJSON();
-            this.$el.html(this.template({data: data?.result}));
-        }
+            el: '#question-element',
+            template: _.template($('#question-template').html()),
+            initialize: function() {
+                model.fetch();
+                this.listenTo(model, 'sync', this.render);
+                setInterval(this.fetchData, 3000);  // fetch data every 5 seconds
+            },
+            fetchData: function() {
+                model.fetch();
+            },
+            render: function() {
+                var data = model.toJSON();
+                this.$el.html(this.template({data: data?.result}));
+            }
         });
 
         var questionView = new QuestionView();
@@ -272,16 +253,21 @@
             }
         });
 
+        var ansModel = new AnswerModel();
+
         var AnswerView = Backbone.View.extend({
         el: '#answer-element',
         template: _.template($('#answer-template').html()),
         initialize: function() {
-            this.model = new AnswerModel();
-            this.model.fetch();
-            this.listenTo(this.model, 'sync', this.render);
+            ansModel.fetch();
+            this.listenTo(ansModel, 'sync', this.render);
+            setInterval(this.fetchData, 5000);  // fetch data every 5 seconds
+        },
+        fetchData: function() {
+            ansModel.fetch();
         },
         render: function() {
-            var data = this.model.toJSON();
+            var data = ansModel.toJSON();
             if (data?.result?.length == 0) {
                 data.result[0] = {answerDescription: "No Answers Posted Yet!!"};
             }

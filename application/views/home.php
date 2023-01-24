@@ -92,18 +92,23 @@
             }
         });
 
+        var model = new QuestionModel();
+
         var QuestionView = Backbone.View.extend({
-        el: '#question-element',
-        template: _.template($('#question-template').html()),
-        initialize: function() {
-            this.model = new QuestionModel();
-            this.model.fetch();
-            this.listenTo(this.model, 'sync', this.render);
-        },
-        render: function() {
-            var data = this.model.toJSON();
-            this.$el.html(this.template({data: data?.result}));
-        }
+            el: '#question-element',
+            template: _.template($('#question-template').html()),
+            initialize: function() {
+                model.fetch();
+                this.listenTo(model, 'sync', this.render);
+                setInterval(this.fetchData, 5000);  // fetch data every 5 seconds
+            },
+            fetchData: function() {
+                model.fetch();
+            },
+            render: function() {
+                var data = model.toJSON();
+                this.$el.html(this.template({data: data?.result}));
+            }
         });
 
         var questionView = new QuestionView();
