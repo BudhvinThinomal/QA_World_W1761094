@@ -241,7 +241,7 @@
         <% _.each(data, function(item) { %>
             <div class="answerContainer_inner" >
                 <h3><%= item?.answerDescription %></h3> 
-                <p>Posted by: <%= item?.username %></p>
+                <p <% if (!item?.username) { %> style="display: none" <% } %>>Posted by: <%= item?.username %></p>
 
                 <div class="container__inner__bottom" <% if (item?.username !== global.getUserName) { %> style="display: none" <% } %>>   
                     <div class="left">
