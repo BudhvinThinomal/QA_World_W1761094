@@ -110,9 +110,9 @@
 <body>
     <div class="container">
         
-    <?php
-        include 'commonNavBar.php';
-    ?>
+        <?php
+            include 'commonNavBar.php';
+        ?>
         
         <div class="container__section questionNanswers">
             <div class="questionContainer">
@@ -194,7 +194,7 @@
             <div class="container__inner__bottom" <% if (item?.username !== global.getUserName) { %> style="display: none" <% } %>>  
                 <div class="left"></div>
                 <div class="right">
-                    <button>
+                    <button id="<%= item?.questionID %>" onClick="$(location).attr('href', '<?php echo(base_url());?>index.php/EditQuestion?questionID=' + <%= item?.questionID %> )">
                         Edit
                     </button>
                     <button id="<%= item?.questionID %>" onClick="deleteQuestion(<%= item?.questionID %>)">
