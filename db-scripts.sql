@@ -28,22 +28,9 @@ CREATE TABLE `question_details` (
     `questionDescription` LONGTEXT NOT NULL,
     `createdTime` TIMESTAMP NOT NULL,
     `lastModified` TIMESTAMP NOT NULL,
-    `likes` INT(255) NOT NULL DEFAULT 0,
-    `dislikes` INT(255) NOT NULL DEFAULT 0,
     `username` VARCHAR(40) NOT NULL,
     PRIMARY KEY (`questionID`),
     FOREIGN KEY (`username`) REFERENCES `user_details`(`username`)
-);
-
-CREATE TABLE `question_votes` (
-	`voteID` INT(10) AUTO_INCREMENT NOT NULL,
-    `like` INT(10) NOT NULL,
-    `dislike` INT(10) NOT NULL,
-    `username` VARCHAR(40) NOT NULL,
-    `questionID` INT(10) NOT NULL,
-    PRIMARY KEY (`voteID`),
-    FOREIGN KEY (`username`) REFERENCES `user_details`(`username`),
-    FOREIGN KEY (`questionID`) REFERENCES `question_details`(`questionID`)
 );
 
 CREATE TABLE `answer_votes` (

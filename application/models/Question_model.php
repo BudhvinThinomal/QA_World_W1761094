@@ -79,8 +79,6 @@ class Question_model extends CI_Model
             'questionDescription' => $questionDescription,
             'createdTime' => $createdTime,
             'lastModified' => $lastModified,
-            'likes' => 0,
-            'dislikes' => 0,
             'username' => $username
         ));
 
@@ -167,124 +165,6 @@ class Question_model extends CI_Model
         }
 
         return $response;
-    }
-
-    //Function for update votes for each question
-    function update_question_votes($request) {
-        $requestParm['username'] = $request['username'];
-        $requestParm['isLoggedIn'] = $request['isLoggedIn'];
-
-        if ($this->validate_parameters($requestParm) and $this->check_question($request['questionID'], $request['username'])) {
-            // $voteData = $this->get_vote($request['voteType'], $request['questionID']);
-            $sql = "SELECT * FROM `questionvote` WHERE `questionID` = ? AND `username` = ?;";
-            $voteData =  $this->db->query($sql, array($request['questionID'], $request['username']));
-
-            $dataObject = array();
-
-            foreach ($voteData->result() as $row) {
-                $dataObject[] = $row;
-            }
-
-            if ($dataObject != []) {
-                // There are data
-                // update votes
-                if ($request['voteType'] == 'like') {
-                    $updateData = array(
-                        'like' => true,
-                        'dislike' => false,
-                        'questionID' => $dataObject[0]->questionID,
-                        'username' => $dataObject[0]->username,
-                        'voteID' => $dataObject[0]->voteID,
-                    );
-
-                    $sql = "UPDATE `questionvote` SET `like`= ?,`dislike`= ? WHERE questionID = ? AND username = ? AND voteID = ?";
-                    $result = $this->db->query($sql , $updateData);
-
-                    if ($result) {
-                        $response['message'] = "Votes Updated Successfully!!";
-                        $response['isUpdated'] = true;
-                        return $response;
-                    } else {
-                        $error = $this->db->error();
-
-                        $response['message'] = "Something went wrong!!";
-                        $response['isUpdated'] = false;
-                        $response['data'] = $error;
-                        return $response;
-                    }
-                } else {
-                    $updateData = array(
-                        'like' => false,
-                        'dislike' => true,
-                        'questionID' => $dataObject[0]->questionID,
-                        'username' => $dataObject[0]->username,
-                        'voteID' => $dataObject[0]->voteID,
-                    );
-
-                    $sql = "UPDATE `questionvote` SET `like`= ?,`dislike`= ? WHERE questionID = ? AND username = ? AND voteID = ?";
-                    $result = $this->db->query($sql, $updateData);
-
-                    if ($result) {
-                        $response['message'] = "Votes Updated Successfully!!";
-                        $response['isUpdated'] = true;
-                        return $response;
-                    } else {
-                        $error = $this->db->error();
-
-                        $response['message'] = "Something went wrong!!";
-                        $response['isUpdated'] = false;
-                        $response['data'] = $error;
-                        return $response;
-                    }
-                }
-            } else {
-                if ($request['voteType'] == 'like') {
-                    $result = $this->db->insert('questionvote', array(
-                        'like' => true,
-                        'dislike' => false,
-                        'questionID' => $request['questionID'],
-                        'username' => $request['username'],
-                    ));
-
-                    if ($result) {
-                        $response['message'] = "Votes Created successfully!!";
-                        $response['isUpdated'] = true;
-                        return $response;
-                    } else {
-                        $error = $this->db->error();
-
-                        $response['message'] = "Something went wrong!!";
-                        $response['isUpdated'] = false;
-                        $response['data'] = $error;
-                        return $response;
-                    }
-                } else {
-                    $result = $this->db->insert('questionvote', array(
-                        'like' => false,
-                        'dislike' => true,
-                        'questionID' => $request['questionID'],
-                        'username' => $request['username'],
-                    ));
-
-                    if ($result) {
-                        $response['message'] = "Votes Created successfully!!";
-                        $response['isUpdated'] = true;
-                        return $response;
-                    } else {
-                        $error = $this->db->error();
-
-                        $response['message'] = "Something went wrong!!";
-                        $response['isUpdated'] = false;
-                        $response['data'] = $error;
-                        return $response;
-                    }
-                }
-            }
-        } else {
-            $response['message'] = "User not valid or question does not exist!!";
-            $response['isUpdated'] = false;
-            return $response;
-        }
     }
 
 }
