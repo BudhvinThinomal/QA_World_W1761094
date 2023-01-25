@@ -83,29 +83,6 @@ class Answer extends \Restserver\Libraries\REST_Controller {
         }
     }
 
-    //Function for update votes for each answer
-    function updateAnswerVote_post() {
-        $requestJson['answerID'] = $this->input->post('answerID');
-        $requestJson['username'] = $this->input->post('username');
-        $requestJson['isLoggedIn'] = (boolean)$this->input->post('isLoggedIn');
-        $requestJson['voteType'] = $this->input->post('voteType');
-
-        if ($requestJson['answerID'] and $requestJson['username'] and $requestJson['voteType']) {
-            $response = $this->answer_model->update_answer_votes($requestJson);
-
-            if ($response['isUpdated']) {
-                $this->set_response($response, \Restserver\Libraries\REST_Controller::HTTP_CREATED);
-            } else {
-                $this->set_response($response, \Restserver\Libraries\REST_Controller::HTTP_INTERNAL_SERVER_ERROR);
-            }
-
-        } else {
-            $response['message'] = "Error processing input";
-            $response['isUpdated'] = false;
-            $this->set_response($response, \Restserver\Libraries\REST_Controller::HTTP_OK);
-        }
-    }
-
     //Function for remove answer
     function removeAnswer_post() {
         $answerID = $this->input->post('answerID');
@@ -116,6 +93,42 @@ class Answer extends \Restserver\Libraries\REST_Controller {
             $this->set_response($response, \Restserver\Libraries\REST_Controller::HTTP_CREATED);
         } else {
             $response = false;
+
+            $this->set_response($response, \Restserver\Libraries\REST_Controller::HTTP_OK);
+        }
+    }
+
+    //Function for get votes for each answer
+    function getAnswerVote__get() {
+        $questionID  = $this->input->get('questionID');
+
+        if ($questionID) {
+            $response = $this->answer_model->get_votes($questionID);
+
+            $this->set_response($response, \Restserver\Libraries\REST_Controller::HTTP_CREATED);
+        } else {
+            $response['message'] = "Cannot Find Number of Votes!!";
+            $response['isValid'] = false;
+
+            $this->set_response($response, \Restserver\Libraries\REST_Controller::HTTP_OK);
+        }
+    }
+    
+    //Function for update votes for each answer
+    function updateAnswerVote_post() {
+        $answerID  = $this->input->post('answerID');
+        $questionID  = $this->input->post('questionID');
+        $username = $this->user_model->get_username();
+        $like  = $this->input->post('like');
+        $dislike  = $this->input->post('dislike');
+
+        if ($answerID and $questionID and $username and $like and $dislike) {
+            $response = $this->answer_model->update_answer_votes($answerID, $questionID, $username, $like , $dislike);
+
+            $this->set_response($response, \Restserver\Libraries\REST_Controller::HTTP_CREATED);
+        } else {
+            $response["message"] = "Vote Unsuccessful!!";
+            $response["isValid"] = false;
 
             $this->set_response($response, \Restserver\Libraries\REST_Controller::HTTP_OK);
         }

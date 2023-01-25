@@ -39,9 +39,11 @@ CREATE TABLE `answer_votes` (
     `dislike` INT(10) NOT NULL,
     `username` VARCHAR(40) NOT NULL,
     `answerID` INT(10) NOT NULL,
+    `questionID` INT(10) NOT NULL,
     PRIMARY KEY (`voteID`),
     FOREIGN KEY (`username`) REFERENCES `user_details`(`username`),
-    FOREIGN KEY (`answerID`) REFERENCES `answer_details`(`answerID`)
+    FOREIGN KEY (`answerID`) REFERENCES `answer_details`(`answerID`),
+    FOREIGN KEY (`questionID`) REFERENCES `question_details`(`questionID`)
 );
 
 CREATE TABLE `ci_sessions` (

@@ -194,10 +194,10 @@
             <div class="container__inner__bottom" <% if (item?.username !== global.getUserName) { %> style="display: none" <% } %>>  
                 <div class="left"></div>
                 <div class="rightQuestion">
-                    <button id="<%= item?.questionID %>" onClick="$(location).attr('href', '<?php echo(base_url());?>index.php/EditQuestion?questionID=' + <%= item?.questionID %> )">
+                    <button onClick="$(location).attr('href', '<?php echo(base_url());?>index.php/EditQuestion?questionID=' + <%= item?.questionID %> )">
                         Edit
                     </button>
-                    <button id="<%= item?.questionID %>" onClick="deleteQuestion(<%= item?.questionID %>)">
+                    <button onClick="deleteQuestion(<%= item?.questionID %>)">
                         Delete
                     </button>
                 </div>
@@ -246,19 +246,19 @@
                 <div class="container__inner__bottom" <% if (item?.username !== global.getUserName) { %> style="display: none" <% } %>>   
                     <div class="left">
                         <button class="likes">
-                                    <img src="<?php echo(base_url());?>assets/images/like.svg" alt="like"/>
-                                    <p><%= item?.likes %></p>
-                                </button>
-                                <button class="dislikes">
-                                    <img src="<?php echo(base_url());?>assets/images/dislike.svg" alt="dislike"/>
-                                    <p><%= item?.dislikes %></p>
-                                </button>
+                            <img src="<?php echo(base_url());?>assets/images/like.svg" alt="like"/>
+                            <p id="'likes' + <%= item?.answerID %>"><%= item?.likes %></p>
+                        </button>
+                        <button class="dislikes">
+                            <img src="<?php echo(base_url());?>assets/images/dislike.svg" alt="dislike"/>
+                            <p id="'dislikes' + <%= item?.answerID %>"><%= item?.dislikes %></p>
+                        </button>
                     </div>
                     <div class="right">
-                        <button id="<%= item?.answerID %>" onClick="$(location).attr('href', '<?php echo(base_url());?>index.php/EditAnswer?answerID=' + <%= item?.answerID %> + '&questionID=' + <%= item?.questionID %> )">
+                        <button onClick="$(location).attr('href', '<?php echo(base_url());?>index.php/EditAnswer?answerID=' + <%= item?.answerID %> + '&questionID=' + <%= item?.questionID %> )">
                             Edit
                         </button>
-                        <button id="<%= item?.answerID %>" onClick="deleteAnswer(<%= item?.answerID %>)">
+                        <button onClick="deleteAnswer(<%= item?.answerID %>)">
                             Delete
                         </button>
                     </div>
@@ -347,6 +347,23 @@
                 }
             });
         }
+    </script>
+
+    <!-- Answer Voting System -->
+    <script>
+        $(document).ready(function() {
+            $.ajax({
+                url: "<?php echo (base_url()); ?>index.php/api/User/getUserName",
+                type: "GET",
+                success: function(response) {
+                   console.log(response);
+                },
+                error: function(xhr, status, error) {
+                    console.log(error);
+                    // Handle any errors that occur during the request
+                }
+            });      
+        });
     </script>
 
     <?php
