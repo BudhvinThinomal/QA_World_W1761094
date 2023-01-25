@@ -99,7 +99,7 @@ class Answer extends \Restserver\Libraries\REST_Controller {
     }
 
     //Function for get votes for each answer
-    function getAnswerVote__get() {
+    function allAnswersVotes_get() {
         $questionID  = $this->input->get('questionID');
 
         if ($questionID) {
@@ -118,11 +118,12 @@ class Answer extends \Restserver\Libraries\REST_Controller {
     function updateAnswerVote_post() {
         $answerID  = $this->input->post('answerID');
         $questionID  = $this->input->post('questionID');
-        $username = $this->user_model->get_username();
+        // $username = $this->user_model->get_username();
+        $username = $this->input->post('username');
         $like  = $this->input->post('like');
         $dislike  = $this->input->post('dislike');
 
-        if ($answerID and $questionID and $username and $like and $dislike) {
+        if ($answerID and $questionID and $username) {
             $response = $this->answer_model->update_answer_votes($answerID, $questionID, $username, $like , $dislike);
 
             $this->set_response($response, \Restserver\Libraries\REST_Controller::HTTP_CREATED);
