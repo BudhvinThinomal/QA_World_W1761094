@@ -12,6 +12,23 @@ class Answer extends \Restserver\Libraries\REST_Controller {
         $this->load->model('user_model');
     }
 
+    //Function for return one particular answer from database
+    function getAnswer_get() {
+        $answerID = $this->input->get('answerID');
+
+        if ($answerID) {
+            $response = $this->answer_model->get_answer($answerID);
+
+            $this->set_response($response, \Restserver\Libraries\REST_Controller::HTTP_OK);
+        } else {
+            $response["message"] = "Answer does not Exist!!";
+            $response["isValid"] = false;
+            $response["result"] = [];
+
+            $this->set_response($response, \Restserver\Libraries\REST_Controller::HTTP_OK);
+        }
+    }
+
     //Function for return all the answers from database
     function allAnswers_get() {
         $questionID = $this->input->get('questionID');
@@ -54,8 +71,8 @@ class Answer extends \Restserver\Libraries\REST_Controller {
         $answerID  = $this->input->post('answerID');
         $username = $this->user_model->get_username();
 
-        if ($answerDescription and $answerID and $username) {
-            $response = $this->answer_model->update_answer($answerDescription, $answerID, $username);
+        if ($answerDescription and $answerID) {
+            $response = $this->answer_model->update_answer($answerDescription, $answerID);
 
             $this->set_response($response, \Restserver\Libraries\REST_Controller::HTTP_CREATED);
         } else {
@@ -94,9 +111,9 @@ class Answer extends \Restserver\Libraries\REST_Controller {
         $answerID = $this->input->post('answerID');
 
         if ($answerID) {
-        $response = $this->answer_model->remove_answer($answerID);
+            $response = $this->answer_model->remove_answer($answerID);
 
-        $this->set_response($response, \Restserver\Libraries\REST_Controller::HTTP_CREATED);
+            $this->set_response($response, \Restserver\Libraries\REST_Controller::HTTP_CREATED);
         } else {
             $response = false;
 

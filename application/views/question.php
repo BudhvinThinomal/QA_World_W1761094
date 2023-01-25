@@ -193,7 +193,7 @@
 
             <div class="container__inner__bottom" <% if (item?.username !== global.getUserName) { %> style="display: none" <% } %>>  
                 <div class="left"></div>
-                <div class="right">
+                <div class="rightQuestion">
                     <button id="<%= item?.questionID %>" onClick="$(location).attr('href', '<?php echo(base_url());?>index.php/EditQuestion?questionID=' + <%= item?.questionID %> )">
                         Edit
                     </button>
@@ -240,7 +240,29 @@
     <script type="text/template" id="answer-template">
         <% _.each(data, function(item) { %>
             <div class="answerContainer_inner" >
-                <p><%= item?.answerDescription %></p> 
+                <h3><%= item?.answerDescription %></h3> 
+                <p>Posted by: <%= item?.username %></p>
+
+                <div class="container__inner__bottom" <% if (item?.username !== global.getUserName) { %> style="display: none" <% } %>>   
+                    <div class="left">
+                        <button class="likes">
+                                    <img src="<?php echo(base_url());?>assets/images/like.svg" alt="like"/>
+                                    <p><%= item?.likes %></p>
+                                </button>
+                                <button class="dislikes">
+                                    <img src="<?php echo(base_url());?>assets/images/dislike.svg" alt="dislike"/>
+                                    <p><%= item?.dislikes %></p>
+                                </button>
+                    </div>
+                    <div class="right">
+                        <button id="<%= item?.answerID %>" onClick="$(location).attr('href', '<?php echo(base_url());?>index.php/EditAnswer?answerID=' + <%= item?.answerID %> + '&questionID=' + <%= item?.questionID %> )">
+                            Edit
+                        </button>
+                        <button id="<%= item?.answerID %>" onClick="deleteAnswer(<%= item?.answerID %>)">
+                            Delete
+                        </button>
+                    </div>
+                </div>
             </div>  
         <% }); %>
     </script>
@@ -262,7 +284,7 @@
         initialize: function() {
             ansModel.fetch();
             this.listenTo(ansModel, 'sync', this.render);
-            setInterval(this.fetchData, 5000);  // fetch data every 5 seconds
+            setInterval(this.fetchData, 3000);  // fetch data every 5 seconds
         },
         fetchData: function() {
             ansModel.fetch();
@@ -293,6 +315,30 @@
                         window.location.href = "<?php echo (base_url()); ?>index.php/Home";
                     } else {
                         showToast("Question Delete Process Unsuccessful!!");
+                    }   
+                },
+                error: function(xhr, status, error) {
+                    // Handle any errors that occur during the request
+                    console.log(error);
+                }
+            });
+        }
+    </script>
+
+    <!-- Delete Method for delete answer -->
+    <script>
+        function deleteAnswer(answerID) {
+            $.ajax({
+                url: "<?php echo (base_url()); ?>index.php/api/Answer/removeAnswer",
+                type: 'POST',
+                data: {
+                    answerID: answerID
+                },
+                success: function(response) {
+                    if (response == true) {
+                        window.location.href = "<?php echo(base_url());?>index.php/Question?questionID="+$searchParams.get('questionID');
+                    } else {
+                        showToast("Answer Delete Process Unsuccessful!!");
                     }   
                 },
                 error: function(xhr, status, error) {

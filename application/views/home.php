@@ -38,10 +38,10 @@
         <!-- Filtering section -->
         <div class="container__section midSection">
             
-            <div class="filter">
+            <!-- <div class="filter">
                 <img src="<?php echo(base_url());?>assets/images/options-outline.svg" alt="Filter"/>
                 <p>2</p>
-            </div>
+            </div> -->
             <div class="postQuestion">
                 <button id="post-question-btn">Post a Question</button>
             </div>
@@ -67,16 +67,7 @@
                             <p>Created by: <%= item?.username %></p>
                         </div>
 
-                        <div class="right">
-                            <button class="likes">
-                                <img src="<?php echo(base_url());?>assets/images/like.svg" alt="like"/>
-                                <p><%= item?.likes %></p>
-                            </button>
-                            <button class="dislikes">
-                                <img src="<?php echo(base_url());?>assets/images/dislike.svg" alt="dislike"/>
-                                <p><%= item?.dislikes %></p>
-                            </button>
-                        </div>
+                        <div class="right"></div>
                     </div>
                 </div>
             </div>

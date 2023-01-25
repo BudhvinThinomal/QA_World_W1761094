@@ -10,6 +10,35 @@ class Answer_model extends CI_Model
         date_default_timezone_set("Asia/Colombo");
     }
 
+    //Function for return one perticular answer
+    function get_answer($answerID)
+    {
+        $this->db->where('answerID', $answerID);
+        $result = $this->db->get('answer_details');
+
+        $resultArray = array();
+
+        foreach ($result->result() as $row) {
+            $resultArray[] = $row;
+        }
+
+        $isValid = !empty($resultArray);
+
+        if ($isValid) {
+            $response["message"] = "Answer Exist!!";
+            $response["isValid"] = $isValid;
+            $response["result"] = json_decode(json_encode($resultArray), true);
+
+            return $response;
+        } else {
+            $response["message"] = "Answer does not Exist!!";
+            $response["isValid"] = $isValid;
+            $response["result"] = json_decode(json_encode($resultArray), true);
+
+            return $response;
+        }
+    }
+
     //Function for return all the answers from database
     function all_answers($questionID)
     {
@@ -27,13 +56,13 @@ class Answer_model extends CI_Model
         if ($isValid) {
             $response["message"] = "Answers Exist!!";
             $response["isValid"] = $isValid;
-            $response["result"] = $resultArray;
+            $response["result"] = json_decode(json_encode($resultArray), true);
 
             return $response;
         } else {
             $response["message"] = "Answers does not Exist!!";
             $response["isValid"] = $isValid;
-            $response["result"] = $resultArray;
+            $response["result"] = json_decode(json_encode($resultArray), true);
 
             return $response;
         }
@@ -72,7 +101,7 @@ class Answer_model extends CI_Model
     }
 
     //Function for update existing answer
-    function update_answer($answerDescription, $answerID, $username)
+    function update_answer($answerDescription, $answerID)
     {
         $timeSatmp = date("Y-m-d h:i:s");
 
@@ -95,25 +124,6 @@ class Answer_model extends CI_Model
 
             return $response;
         }
-    }
-
-    //Function for return one perticular answer
-    function get_answer($answerID)
-    {
-        $this->db->where('answerID', $answerID);
-        $result = $this->db->get('answer');
-
-        $response = array();
-
-        foreach ($result->result() as $row) {
-            $response[] = $row;
-        }
-
-        if (empty($response)) {
-            return false;
-        }
-
-        return $response;
     }
 
     //Function for return number of votes for each answer
