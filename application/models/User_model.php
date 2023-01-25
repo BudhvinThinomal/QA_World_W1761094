@@ -153,4 +153,82 @@ class User_model extends CI_Model
             return $response;
         }
     }
+
+    //Function for update user full name
+    function update_fullName($fullName, $username)
+    {
+
+        $updatedData = array(
+            'fullName' => $fullName
+        );
+
+        $this->db->where('username', $username);
+        $result = $this->db->update('user_details', $updatedData);
+
+        if ($result) {
+            $response["message"] = "Full Name Updated Successfully!!";
+            $response["isValid"] = $result;
+
+            return $response;
+        } else {
+            $response["message"] = "Full Name Updating Process Unsuccessful!!";
+            $response["isValid"] = $result;
+
+            return $response;
+        }
+    }
+
+    //Function for update user password
+    function update_password($password, $prePassword,$username)
+    {
+        $this->db->where('username', $username);
+        $result = $this->db->get('user_details');
+
+        $resultArray = array();
+
+        foreach ($result->result() as $row) {
+            $resultArray[] = $row;
+        }
+        
+        $isValid = !empty($resultArray);
+
+        if($isValid) {
+            
+            $convertedPass = json_decode(json_encode($resultArray), true);
+
+            if (password_verify($prePassword, $convertedPass[0]['password'])) {
+                
+                $enpassword = password_hash($password, PASSWORD_DEFAULT);
+
+                $updatedData = array(
+                    'password' => $enpassword
+                );
+        
+                $this->db->where('username', $username);
+                $result = $this->db->update('user_details', $updatedData);
+        
+                if ($result) {
+                    $response["message"] = "Password Updated Successfully!!";
+                    $response["isValid"] = $result;
+        
+                    return $response;
+                } else {
+                    $response["message"] = "Password Updating Process Unsuccessful!!";
+                    $response["isValid"] = $result;
+        
+                    return $response;
+                }
+            } else {
+                $response["message"] = "Previous Password Incorrect!!";
+                $response["isValid"] = false;
+    
+                return $response;
+            }
+        } else {
+            $response["message"] = "Password Updating Process Unsuccessful!!";
+            $response["isValid"] = $isValid;
+
+            return $response;
+        }
+    }
 }

@@ -21,16 +21,16 @@ class User extends \Restserver\Libraries\REST_Controller
     //Validation about user availability
     function checkUserDataAvailability_get()
     {
-        $username = $this->input->get('username');
+        $username = $this->user_model->get_username();
 
         if ($username) {
             $modelResponse = $this->user_model->check_availability($username);
 
             $this->set_response($modelResponse, \Restserver\Libraries\REST_Controller::HTTP_OK);
         } else{
-            $response["message"] = "Username not entered!!";
-            $response["isValid"] = $isValid;
-            $response["result"] = $resultArray;
+            $response["message"] = "User does not Exist!!";
+            $response["isValid"] = false;
+            $response["result"] = [];
 
             $this->set_response($response, \Restserver\Libraries\REST_Controller::HTTP_OK);
         }
@@ -98,6 +98,43 @@ class User extends \Restserver\Libraries\REST_Controller
             $this->set_response($modelResponse, \Restserver\Libraries\REST_Controller::HTTP_CREATED);
         } else{
             $response["message"] = "User Creation Unsuccessful!!";
+            $response["isValid"] = false;
+
+            $this->set_response($response, \Restserver\Libraries\REST_Controller::HTTP_OK);
+        }
+    }
+
+    //Function for update user full name
+    function updateUserFullname_post() {
+        $fullName = $this->input->post('fullName');
+        $username = $this->user_model->get_username();
+
+        if ($fullName and $username) {
+
+            $response = $this->user_model->update_fullName($fullName, $username);
+
+            $this->set_response($response, \Restserver\Libraries\REST_Controller::HTTP_CREATED);
+        } else {
+            $response["message"] = "Full Name Updating Process Unsuccessful!!";
+            $response["isValid"] = false;
+
+            $this->set_response($response, \Restserver\Libraries\REST_Controller::HTTP_OK);
+        }
+    }
+
+    //Function for update user password
+    function updateUserPassword_post() {
+        $password = $this->input->post('password');
+        $prePassword = $this->input->post('prePassword');
+        $username = $this->user_model->get_username();
+
+        if ($password and $prePassword and $username) {
+
+            $response = $this->user_model->update_password($password, $prePassword, $username);
+
+            $this->set_response($response, \Restserver\Libraries\REST_Controller::HTTP_CREATED);
+        } else {
+            $response["message"] = "Password Updating Process Unsuccessful!!";
             $response["isValid"] = false;
 
             $this->set_response($response, \Restserver\Libraries\REST_Controller::HTTP_OK);

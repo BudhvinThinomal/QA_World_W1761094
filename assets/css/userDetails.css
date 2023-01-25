@@ -266,17 +266,17 @@
 
 .postBtn input {
     text-decoration: none;
-    width: 12%;
+    width: 20%;
     background-color: #08134A;
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 10px;
-    border-radius: 30px;
+    border-radius: 5px;
     color: white;
     transition: all 200ms;
     cursor: pointer;
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 700;
 }
 
