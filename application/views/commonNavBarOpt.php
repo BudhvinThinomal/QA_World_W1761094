@@ -1,4 +1,5 @@
 <div id="side-nav-popup">
+    <a href="<?php echo(base_url());?>index.php/UserDetails" id="user-btn">User Detials</a> <br id="user-br">
     <a href="<?php echo(base_url());?>index.php/Login">Log In</a> <br>
     <a href="<?php echo(base_url());?>index.php/Signin">Sign In</a> <br>
     <a style="cursor: pointer;" id="logout-btn">Log Out</a>
@@ -44,8 +45,12 @@
             
                 if (response == true) {
                     $('#logout-btn').show();
+                    $('#user-btn').show();
+                    $('#user-br').show();
                 } else {
                     $('#logout-btn').hide();
+                    $('#user-btn').hide();
+                    $('#user-br').hide();
                 }
             },
             error: function(xhr, status, error) {

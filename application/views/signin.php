@@ -172,7 +172,7 @@
 
                     <!-- Section 06 Submit button section -->
                     <div class="container__right-sec btn">
-                        <input type="submit" id='loginBtn' value="Log In"/>
+                        <input type="submit" id='loginBtn' value="Sign In"/>
                     </div>
                 </div>
             </div>

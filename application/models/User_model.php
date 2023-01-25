@@ -44,11 +44,20 @@ class User_model extends CI_Model
         $isValid = !empty($resultArray);
 
         if ($isValid) {
-            $response["message"] = "User Exist!!";
-            $response["isValid"] = $isValid;
-            $response["result"] = $resultArray;
 
-            return $response;
+            if (strcmp($request, $resultArray[0]->username) == 0) {
+                $response["message"] = "User Exist!!";
+                $response["isValid"] = $isValid;
+                $response["result"] = $resultArray;
+
+                return $response;
+            } else {
+                $response["message"] = "User does not Exist!!";
+                $response["isValid"] = false;
+                $response["result"] = [];
+
+                return $response;
+            }
         } else {
             $response["message"] = "User does not Exist!!";
             $response["isValid"] = $isValid;
@@ -73,16 +82,23 @@ class User_model extends CI_Model
         $isValid = !empty($resultArray);
 
         if($isValid) {
-            $convertedPass = json_decode(json_encode($resultArray), true);
+            if (strcmp($username, $resultArray[0]->username) == 0) {
 
-            if (password_verify($password, $convertedPass[0]['password'])) {
+                $convertedPass = json_decode(json_encode($resultArray), true);
+
+                if (password_verify($password, $convertedPass[0]['password'])) {
+                    
+                    $this->session->username = $username;
+                    $this->session->is_loggedin = true;
+                    return true;
+                } else {
+                    return false;
+                }
                 
-                $this->session->username = $username;
-                $this->session->is_loggedin = true;
-                return true;
             } else {
                 return false;
             }
+
         } else {
             return false;
         }
