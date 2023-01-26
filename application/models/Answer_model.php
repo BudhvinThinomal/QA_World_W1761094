@@ -336,9 +336,16 @@ class Answer_model extends CI_Model
     }
 
     //Function for remove existing answer
-    function remove_answer($answerID){
-        $result = $this->db->delete('answer_details', array('answerID' => $answerID));
+    function remove_answer($answerID)
+    {
+        $deleteVotes = $this->db->delete('answer_votes', array('answerID' => $answerID));
 
-        return $result;   
+        if ($deleteVotes) {
+            $deleteAnswers = $this->db->delete('answer_details', array('answerID' => $answerID));
+        } else {
+            $deleteAnswers = false;
+        }
+
+        return $deleteAnswers;  
     }
 }

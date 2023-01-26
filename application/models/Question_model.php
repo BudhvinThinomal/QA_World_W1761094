@@ -127,7 +127,9 @@ class Question_model extends CI_Model
     {
         $deleteAnswers = $this->db->delete('answer_details', array('questionID' => $questionID));
 
-        if ($deleteAnswers) {
+        $deleteVotes = $this->db->delete('answer_votes', array('questionID' => $questionID));
+
+        if ($deleteAnswers and $deleteVotes) {
             $deleteQuestion = $this->db->delete('question_details', array('questionID' => $questionID));
         } else {
             $deleteQuestion = false;
