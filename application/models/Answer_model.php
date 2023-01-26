@@ -145,6 +145,31 @@ class Answer_model extends CI_Model
             $response["isValid"] = $isValid;
             $response["result"] = json_decode(json_encode($resultArray), true);
 
+            $result = $response['result'];
+
+            $answer_stats = array();
+
+            foreach ($result as $vote) {
+                $answerID = $vote['answerID'];
+
+                if(!isset($answer_stats[$answerID])) {
+                    $answer_stats[$answerID] = array(
+                        'answerID' => $answerID,
+                        'likes' => 0,
+                        'dislikes' => 0
+                    );
+                }
+
+                if($vote['like'] == 1) {
+                    $answer_stats[$answerID]['likes']++;
+                } else {
+                    $answer_stats[$answerID]['dislikes']++;
+                }
+            }
+
+            // answer_stats now contains an array of answer ID, likes, and dislikes
+            $response["summary"] = $answer_stats;
+
             return $response;
         } else {
             $response["message"] = "Votes does not Exist!!";

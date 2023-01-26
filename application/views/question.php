@@ -152,38 +152,6 @@
         </form> 
     </div>
 
-    <!-- Check user log in and username for enabled disabled Edit and Delete-->
-    <script>
-        $(document).ready(function() {
-            $.ajax({
-                url: "<?php echo (base_url()); ?>index.php/api/User/isLoggedIn",
-                type: "GET",
-                success: function(response) {
-                
-                    if (response == true) {
-                        $.ajax({
-                            url: "<?php echo (base_url()); ?>index.php/api/User/getUserName",
-                            type: "GET",
-                            success: function(res) {
-                                global.getUserName = res;
-                            },
-                            error: function(xhr, status, error) {
-                                console.log(error);
-                                // Handle any errors that occur during the request
-                            }
-                        });
-                    } else {
-                        $('.container__inner__bottom').hide();
-                    }
-                },
-                error: function(xhr, status, error) {
-                    console.log(error);
-                    // Handle any errors that occur during the request
-                }
-            });
-        });
-    </script>
-
     <!-- Display question template -->
     <script type="text/template" id="question-template">
         <% _.each(data, function(item) { %>
@@ -236,6 +204,77 @@
         var questionView = new QuestionView();
     </script>
 
+    <!-- Check user log in and username for enabled disabled Edit and Delete-->
+    <!-- Display answers -->
+    <!-- Answer Voting System -->
+    <script>
+        $(document).ready(function() {
+            $.ajax({
+                url: "<?php echo (base_url()); ?>index.php/api/User/isLoggedIn",
+                type: "GET",
+                success: function(response) {
+                
+                    if (response == true) {
+                        $.ajax({
+                            url: "<?php echo (base_url()); ?>index.php/api/User/getUserName",
+                            type: "GET",
+                            success: function(res) {
+                                global.getUserName = res;
+
+                                $.ajax({
+                                    url: "<?php echo (base_url()); ?>index.php/api/Answer/allAnswers?questionID="+$searchParams.get('questionID'),
+                                    type: "GET",
+                                    success: function(data) {
+                                        if (data?.result?.length == 0) {
+                                            data.result[0] = {answerDescription: "No Answers Posted Yet!!"};
+                                        } 
+
+                                        var questionTemplate = _.template($('#answer-template').html());
+                                        $('#answer-element').append(questionTemplate({data: data?.result}));
+
+                                        //<!-- Answer Voting System -->
+                                        $.ajax({
+                                            url: "<?php echo (base_url()); ?>index.php/api/Answer/allAnswersVotes?questionID="+$searchParams.get('questionID'),
+                                            type: "GET",
+                                            success: function(response) {
+                                                if (response['isValid']) {
+                                                    $.each(response['summary'], function(index, answer) {
+                                                        $("#likes" + answer.answerID ).html(answer.likes);
+                                                        $("#dislikes" + answer.answerID ).html(answer.dislikes);
+                                                    }); 
+                                                }  
+                                            },
+                                            error: function(xhr, status, error) {
+                                                console.log(error);
+                                                // Handle any errors that occur during the request
+                                            }
+                                        });      
+             
+                                    },
+                                    error: function(xhr, status, error) {
+                                        console.log(error);
+                                        // Handle any errors that occur during the request
+                                    }
+                                });  
+
+                            },
+                            error: function(xhr, status, error) {
+                                console.log(error);
+                                // Handle any errors that occur during the request
+                            }
+                        });
+                    } else {
+                        $('.container__inner__bottom').hide();
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.log(error);
+                    // Handle any errors that occur during the request
+                }
+            });
+        });
+    </script>
+
     <!-- Display answers template -->
     <script type="text/template" id="answer-template">
         <% _.each(data, function(item) { %>
@@ -243,18 +282,18 @@
                 <h3><%= item?.answerDescription %></h3> 
                 <p <% if (!item?.username) { %> style="display: none" <% } %>>Posted by: <%= item?.username %></p>
 
-                <div class="container__inner__bottom" <% if (item?.username !== global.getUserName) { %> style="display: none" <% } %>>   
-                    <div class="left">
+                <div class="container__inner__bottom">   
+                    <div class="left" <% if (!item?.username) { %> style="display: none" <% } %>>
                         <button class="likes">
                             <img src="<?php echo(base_url());?>assets/images/like.svg" alt="like"/>
-                            <p id="'likes' + <%= item?.answerID %>"><%= item?.likes %></p>
+                            <p id="likes<%= item?.answerID %>">0</p>
                         </button>
                         <button class="dislikes">
                             <img src="<?php echo(base_url());?>assets/images/dislike.svg" alt="dislike"/>
-                            <p id="'dislikes' + <%= item?.answerID %>"><%= item?.dislikes %></p>
+                            <p id="dislikes<%= item?.answerID %>">0</p>
                         </button>
                     </div>
-                    <div class="right">
+                    <div class="right" <% if (item?.username !== global?.getUserName) { %> style="display: none" <% } %>>
                         <button onClick="$(location).attr('href', '<?php echo(base_url());?>index.php/EditAnswer?answerID=' + <%= item?.answerID %> + '&questionID=' + <%= item?.questionID %> )">
                             Edit
                         </button>
@@ -268,7 +307,7 @@
     </script>
 
     <!-- Backbone model for display answers -->
-    <script>
+    <!-- <script>
         var AnswerModel = Backbone.Model.extend({
             url: "<?php echo (base_url()); ?>index.php/api/Answer/allAnswers?questionID="+$searchParams.get('questionID'),
             parse: function(response) {
@@ -299,7 +338,7 @@
         });
 
         var answerView = new AnswerView();
-    </script>
+    </script> -->
 
     <!-- Delete Method for delete question -->
     <script>
@@ -347,23 +386,6 @@
                 }
             });
         }
-    </script>
-
-    <!-- Answer Voting System -->
-    <script>
-        $(document).ready(function() {
-            $.ajax({
-                url: "<?php echo (base_url()); ?>index.php/api/User/getUserName",
-                type: "GET",
-                success: function(response) {
-                   console.log(response);
-                },
-                error: function(xhr, status, error) {
-                    console.log(error);
-                    // Handle any errors that occur during the request
-                }
-            });      
-        });
     </script>
 
     <?php
