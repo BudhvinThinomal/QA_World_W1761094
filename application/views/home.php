@@ -28,10 +28,10 @@
 
         <div class="container__section">
             <div class="navigation__search">
-                <div class="searchContainer">
+                <!-- <div class="searchContainer">
                     <img src="<?php echo(base_url());?>assets/images/search-outline.svg" alt="Search"/>
                     <input type="text" placeholder="Search"/>
-                </div>
+                </div> -->
             </div>
         </div>
 
