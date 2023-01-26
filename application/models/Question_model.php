@@ -125,11 +125,11 @@ class Question_model extends CI_Model
     //Function for remove existing question
     function remove_question($questionID)
     {
-        $deleteAnswers = $this->db->delete('answer_details', array('questionID' => $questionID));
-
         $deleteVotes = $this->db->delete('answer_votes', array('questionID' => $questionID));
 
-        if ($deleteAnswers and $deleteVotes) {
+        $deleteAnswers = $this->db->delete('answer_details', array('questionID' => $questionID));
+
+        if ($deleteVotes and $deleteAnswers) {
             $deleteQuestion = $this->db->delete('question_details', array('questionID' => $questionID));
         } else {
             $deleteQuestion = false;
