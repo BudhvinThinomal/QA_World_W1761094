@@ -181,7 +181,7 @@ class Answer_model extends CI_Model
     }
 
     //Function for update votes for each answer
-    function update_answer_votes($answerID, $questionID, $username, $like , $dislike)
+    function update_answer_votes($answerID, $questionID, $username, $like , $dislike, $voteType)
     {
         $this->db->where('answerID', $answerID);
         $this->db->where('username', $username);
@@ -198,24 +198,46 @@ class Answer_model extends CI_Model
 
 
         if ($isVoted) {
-            if ($like == 0 and $dislike == 0) {
-                $this->db->where('answerID', $answerID);
-                $this->db->where('username', $username);
-                $deleted = $this->db->delete('answer_votes');
+            $record = json_decode(json_encode($resultArray), true);
 
-                if ($deleted) {
-                    $response["message"] = "Vote Removed Successfully!!";
-                    $response["isValid"] = $deleted;
-        
-                    return $response;
-                } else {
-                    $response["message"] = "Vote Removed Unsuccessful!!";
-                    $response["isValid"] = $deleted;
-        
-                    return $response;
+            if ($voteType == "like") {
+                if ($like == $record[0]['like']) {
+                    $this->db->where('answerID', $answerID);
+                    $this->db->where('username', $username);
+                    $deleted = $this->db->delete('answer_votes');
+    
+                    if ($deleted) {
+                        $response["message"] = "Vote Removed Successfully!!";
+                        $response["isValid"] = $deleted;
+            
+                        return $response;
+                    } else {
+                        $response["message"] = "Vote Removed Unsuccessful!!";
+                        $response["isValid"] = $deleted;
+            
+                        return $response;
+                    }
+                }
+            } else {
+                if ($dislike == $record[0]['dislike']) {
+                    $this->db->where('answerID', $answerID);
+                    $this->db->where('username', $username);
+                    $deleted = $this->db->delete('answer_votes');
+    
+                    if ($deleted) {
+                        $response["message"] = "Vote Removed Successfully!!";
+                        $response["isValid"] = $deleted;
+            
+                        return $response;
+                    } else {
+                        $response["message"] = "Vote Removed Unsuccessful!!";
+                        $response["isValid"] = $deleted;
+            
+                        return $response;
+                    }
                 }
             }
-
+           
             $updatedData = array(
                 'like' => $like,
                 'dislike' => $dislike
@@ -256,6 +278,60 @@ class Answer_model extends CI_Model
     
                 return $response;
             }
+        }
+    }
+
+    //Function for return vote color
+    function voteColor($questionID, $username)
+    {
+        $this->db->where('questionID', $questionID);
+        $this->db->where('username', $username);
+        $result = $this->db->get('answer_votes');
+
+        $resultArray = array();
+
+        foreach ($result->result() as $row) {
+            $resultArray[] = $row;
+        }
+
+        $isValid = !empty($resultArray);
+
+        if ($isValid) {
+            $response["message"] = "Votes Exist!!";
+            $response["isValid"] = $isValid; 
+
+            $result = json_decode(json_encode($resultArray), true);
+
+            $answer_stats = array();
+
+            foreach ($result as $vote) {
+                $answerID = $vote['answerID'];
+
+                if(!isset($answer_stats[$answerID])) {
+                    $answer_stats[$answerID] = array(
+                        'answerID' => $answerID,
+                        'likes' => 0,
+                        'dislikes' => 0
+                    );
+                }
+
+                if($vote['like'] == 1) {
+                    $answer_stats[$answerID]['likes']++;
+                } else {
+                    $answer_stats[$answerID]['dislikes']++;
+                }
+            }
+
+            // answer_stats now contains an array of answer ID, likes, and dislikes
+            $response["result"] = $answer_stats;
+
+            return $response;
+        } else {
+            $response["message"] = "Votes does not Exist!!";
+            $response["isValid"] = $isValid;
+            $response["result"] = [];
+
+            return $response;
         }
     }
 

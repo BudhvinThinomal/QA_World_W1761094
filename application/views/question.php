@@ -221,6 +221,7 @@
                             success: function(res) {
                                 global.getUserName = res;
 
+                                //<!-- Display answers -->
                                 $.ajax({
                                     url: "<?php echo (base_url()); ?>index.php/api/Answer/allAnswers?questionID="+$searchParams.get('questionID'),
                                     type: "GET",
@@ -230,7 +231,7 @@
                                         } 
 
                                         var questionTemplate = _.template($('#answer-template').html());
-                                        $('#answer-element').append(questionTemplate({data: data?.result}));
+                                        $('#answer-element').html(questionTemplate({data: data?.result}));
 
                                         //<!-- Answer Voting System -->
                                         $.ajax({
@@ -243,6 +244,35 @@
                                                         $("#dislikes" + answer.answerID ).html(answer.dislikes);
                                                     }); 
                                                 }  
+                                                
+                                                //<!-- Vote Color -->
+                                                $.ajax({
+                                                    url: "<?php echo (base_url()); ?>index.php/api/Answer/userVotesColor?questionID="+$searchParams.get('questionID'),
+                                                    type: "GET",
+                                                    success: function(response) {
+                                                        if (response['isValid']) {
+                                                            $.each(response['result'], function(index, answer) {
+                                                                
+                                                                if (answer.likes == 1) {
+                                                                    $("#likeBtn" + answer.answerID ).css("background-color", "#66ff66");
+                                                                } else {
+                                                                    $("#likeBtn" + answer.answerID ).css("background-color", "#30C6D0");
+                                                                }
+
+                                                                if (answer.dislikes == 1) {
+                                                                    $("#dislikeBtn" + answer.answerID ).css("background-color", "#ff0000");
+                                                                } else {
+                                                                    $("#dislikeBtn" + answer.answerID ).css("background-color", "#30C6D0");
+                                                                }
+                                                                
+                                                            }); 
+                                                        }  
+                                                    },
+                                                    error: function(xhr, status, error) {
+                                                        console.log(error);
+                                                        // Handle any errors that occur during the request
+                                                    }
+                                                });
                                             },
                                             error: function(xhr, status, error) {
                                                 console.log(error);
@@ -264,7 +294,71 @@
                             }
                         });
                     } else {
-                        $('.container__inner__bottom').hide();
+                        //<!-- Display answers -->
+                        $.ajax({
+                            url: "<?php echo (base_url()); ?>index.php/api/Answer/allAnswers?questionID="+$searchParams.get('questionID'),
+                            type: "GET",
+                            success: function(data) {
+                                if (data?.result?.length == 0) {
+                                    data.result[0] = {answerDescription: "No Answers Posted Yet!!"};
+                                } 
+
+                                var questionTemplate = _.template($('#answer-template').html());
+                                $('#answer-element').html(questionTemplate({data: data?.result}));
+
+                                //<!-- Answer Voting System -->
+                                $.ajax({
+                                    url: "<?php echo (base_url()); ?>index.php/api/Answer/allAnswersVotes?questionID="+$searchParams.get('questionID'),
+                                    type: "GET",
+                                    success: function(response) {
+                                        if (response['isValid']) {
+                                            $.each(response['summary'], function(index, answer) {
+                                                $("#likes" + answer.answerID ).html(answer.likes);
+                                                $("#dislikes" + answer.answerID ).html(answer.dislikes);
+                                            }); 
+                                        }  
+                                        
+                                        //<!-- Vote Color -->
+                                        $.ajax({
+                                            url: "<?php echo (base_url()); ?>index.php/api/Answer/userVotesColor?questionID="+$searchParams.get('questionID'),
+                                            type: "GET",
+                                            success: function(response) {
+                                                if (response['isValid']) {
+                                                    $.each(response['result'], function(index, answer) {
+                                                        
+                                                        if (answer.likes == 1) {
+                                                            $("#likeBtn" + answer.answerID ).css("background-color", "#66ff66");
+                                                        } else {
+                                                            $("#likeBtn" + answer.answerID ).css("background-color", "#30C6D0");
+                                                        }
+
+                                                        if (answer.dislikes == 1) {
+                                                            $("#dislikeBtn" + answer.answerID ).css("background-color", "#ff0000");
+                                                        } else {
+                                                            $("#dislikeBtn" + answer.answerID ).css("background-color", "#30C6D0");
+                                                        }
+                                                        
+                                                    }); 
+                                                }  
+                                            },
+                                            error: function(xhr, status, error) {
+                                                console.log(error);
+                                                // Handle any errors that occur during the request
+                                            }
+                                        });
+                                    },
+                                    error: function(xhr, status, error) {
+                                        console.log(error);
+                                        // Handle any errors that occur during the request
+                                    }
+                                });      
+        
+                            },
+                            error: function(xhr, status, error) {
+                                console.log(error);
+                                // Handle any errors that occur during the request
+                            }
+                        });  
                     }
                 },
                 error: function(xhr, status, error) {
@@ -284,11 +378,11 @@
 
                 <div class="container__inner__bottom">   
                     <div class="left" <% if (!item?.username) { %> style="display: none" <% } %>>
-                        <button class="likes">
+                        <button class="likes" id="likeBtn<%= item?.answerID %>" onClick="likeDislikeAnswer(<%= item?.answerID %>, 1, 0, 'like')">
                             <img src="<?php echo(base_url());?>assets/images/like.svg" alt="like"/>
                             <p id="likes<%= item?.answerID %>">0</p>
                         </button>
-                        <button class="dislikes">
+                        <button class="dislikes" id="dislikeBtn<%= item?.answerID %>"  onClick="likeDislikeAnswer(<%= item?.answerID %>, 0, 1, 'dislike')">
                             <img src="<?php echo(base_url());?>assets/images/dislike.svg" alt="dislike"/>
                             <p id="dislikes<%= item?.answerID %>">0</p>
                         </button>
@@ -385,6 +479,117 @@
                     console.log(error);
                 }
             });
+        }
+    </script>
+
+    <!-- Like and Dislike Method for answers -->
+    <script>
+        function likeDislikeAnswer(answerID, like, dislike, voteType) {
+
+            $.ajax({
+                url: "<?php echo (base_url()); ?>index.php/api/User/isLoggedIn",
+                type: "GET",
+                success: function(response) {
+                    
+                    if (response == true) {
+                        $.ajax({
+                            url: "<?php echo (base_url()); ?>index.php/api/Answer/updateAnswerVote",
+                            type: 'POST',
+                            data: {
+                                answerID: answerID,
+                                questionID: $searchParams.get('questionID'),
+                                like: like,
+                                dislike: dislike,
+                                voteType: voteType  
+                            },
+                            success: function(response) {
+                                if (response["isValid"]) {
+                                    showToast(response["message"]);
+
+                                    //<!-- Display answers -->
+                                    $.ajax({
+                                        url: "<?php echo (base_url()); ?>index.php/api/Answer/allAnswers?questionID="+$searchParams.get('questionID'),
+                                        type: "GET",
+                                        success: function(data) {
+                                            if (data?.result?.length == 0) {
+                                                data.result[0] = {answerDescription: "No Answers Posted Yet!!"};
+                                            } 
+
+                                            var questionTemplate = _.template($('#answer-template').html());
+                                            $('#answer-element').html(questionTemplate({data: data?.result}));
+
+                                            //<!-- Answer Voting System -->
+                                            $.ajax({
+                                                url: "<?php echo (base_url()); ?>index.php/api/Answer/allAnswersVotes?questionID="+$searchParams.get('questionID'),
+                                                type: "GET",
+                                                success: function(response) {
+                                                    if (response['isValid']) {
+                                                        $.each(response['summary'], function(index, answer) {
+                                                            $("#likes" + answer.answerID ).html(answer.likes);
+                                                            $("#dislikes" + answer.answerID ).html(answer.dislikes);
+                                                        }); 
+                                                    }  
+
+                                                    //<!-- Vote Color -->
+                                                    $.ajax({
+                                                        url: "<?php echo (base_url()); ?>index.php/api/Answer/userVotesColor?questionID="+$searchParams.get('questionID'),
+                                                        type: "GET",
+                                                        success: function(response) {
+                                                            if (response['isValid']) {
+                                                                $.each(response['result'], function(index, answer) {
+
+                                                                    if (answer.likes == 1) {
+                                                                        $("#likeBtn" + answer.answerID ).css("background-color", "#66ff66");
+                                                                    } else {
+                                                                        $("#likeBtn" + answer.answerID ).css("background-color", "#30C6D0");
+                                                                    }
+
+                                                                    if (answer.dislikes == 1) {
+                                                                        $("#dislikeBtn" + answer.answerID ).css("background-color", "#ff0000");
+                                                                    } else {
+                                                                        $("#dislikeBtn" + answer.answerID ).css("background-color", "#30C6D0");
+                                                                    }
+                                                                   
+                                                                }); 
+                                                            }  
+                                                        },
+                                                        error: function(xhr, status, error) {
+                                                            console.log(error);
+                                                            // Handle any errors that occur during the request
+                                                        }
+                                                    });
+
+                                                },
+                                                error: function(xhr, status, error) {
+                                                    console.log(error);
+                                                    // Handle any errors that occur during the request
+                                                }
+                                            });      
+                    
+                                        },
+                                        error: function(xhr, status, error) {
+                                            console.log(error);
+                                            // Handle any errors that occur during the request
+                                        }
+                                    });  
+                                } else {
+                                    showToast(response["message"]);
+                                }      
+                            },
+                            error: function(xhr, status, error) {
+                                // Handle any errors that occur during the request
+                                console.log(error);
+                            }
+                        });
+                    } else {
+                        showToast("User need to Log In to Vote for a Answer!!");
+                    } 
+                },
+                error: function(xhr, status, error) {
+                    console.log(error);
+                    // Handle any errors that occur during the request
+                }
+            });  
         }
     </script>
 

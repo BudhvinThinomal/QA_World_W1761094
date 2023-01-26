@@ -118,18 +118,36 @@ class Answer extends \Restserver\Libraries\REST_Controller {
     function updateAnswerVote_post() {
         $answerID  = $this->input->post('answerID');
         $questionID  = $this->input->post('questionID');
-        // $username = $this->user_model->get_username();
-        $username = $this->input->post('username');
+        $username = $this->user_model->get_username();
+        // $username = $this->input->post('username');
         $like  = $this->input->post('like');
         $dislike  = $this->input->post('dislike');
+        $voteType = $this->input->post('voteType');
 
         if ($answerID and $questionID and $username) {
-            $response = $this->answer_model->update_answer_votes($answerID, $questionID, $username, $like , $dislike);
+            $response = $this->answer_model->update_answer_votes($answerID, $questionID, $username, $like , $dislike, $voteType);
 
             $this->set_response($response, \Restserver\Libraries\REST_Controller::HTTP_CREATED);
         } else {
             $response["message"] = "Vote Unsuccessful!!";
             $response["isValid"] = false;
+
+            $this->set_response($response, \Restserver\Libraries\REST_Controller::HTTP_OK);
+        }
+    }
+
+    //Function for get votes for each answer by user
+    function userVotesColor_get() {
+        $questionID  = $this->input->get('questionID');
+        $username = $this->user_model->get_username();
+
+        if ($questionID and $username) {
+            $response = $this->answer_model->voteColor($questionID, $username);
+
+            $this->set_response($response, \Restserver\Libraries\REST_Controller::HTTP_CREATED);
+        } else {
+            $response['message'] = "Cannot Find Number of Votes!!";
+            $response['isValid'] = false;
 
             $this->set_response($response, \Restserver\Libraries\REST_Controller::HTTP_OK);
         }
