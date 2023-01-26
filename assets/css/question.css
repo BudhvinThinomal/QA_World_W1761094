@@ -224,16 +224,18 @@
 
 .answerContainer_inner h3 {
     color: #08134A;
-    font-size: 22px;
+    font-size: 26px;
     padding: 1%;
     font-weight: 700;
     text-align: center;
+    margin: 0%;
 }
 
 .answerContainer_inner p {
     color: #08134A;
     font-size: 18px;
     font-weight: 700;
+    margin-top: 0%;
     margin-left: 2%;
     padding: 5px;
     text-align: left;
