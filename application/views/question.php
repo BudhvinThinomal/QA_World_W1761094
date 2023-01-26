@@ -317,35 +317,6 @@
                                                 $("#dislikes" + answer.answerID ).html(answer.dislikes);
                                             }); 
                                         }  
-                                        
-                                        //<!-- Vote Color -->
-                                        $.ajax({
-                                            url: "<?php echo (base_url()); ?>index.php/api/Answer/userVotesColor?questionID="+$searchParams.get('questionID'),
-                                            type: "GET",
-                                            success: function(response) {
-                                                if (response['isValid']) {
-                                                    $.each(response['result'], function(index, answer) {
-                                                        
-                                                        if (answer.likes == 1) {
-                                                            $("#likeBtn" + answer.answerID ).css("background-color", "#66ff66");
-                                                        } else {
-                                                            $("#likeBtn" + answer.answerID ).css("background-color", "#30C6D0");
-                                                        }
-
-                                                        if (answer.dislikes == 1) {
-                                                            $("#dislikeBtn" + answer.answerID ).css("background-color", "#ff0000");
-                                                        } else {
-                                                            $("#dislikeBtn" + answer.answerID ).css("background-color", "#30C6D0");
-                                                        }
-                                                        
-                                                    }); 
-                                                }  
-                                            },
-                                            error: function(xhr, status, error) {
-                                                console.log(error);
-                                                // Handle any errors that occur during the request
-                                            }
-                                        });
                                     },
                                     error: function(xhr, status, error) {
                                         console.log(error);
